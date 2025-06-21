@@ -6,6 +6,7 @@ use App\GraphQL\Resolvers\CategoryResolver;
 use App\Models\Category;
 use App\Models\Product;
 use App\Models\Ingredient;
+use App\Services\CategoryService;
 use GraphQL\Error\Error;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
@@ -19,7 +20,7 @@ class CategoryResolverTest extends TestCase
     protected function setUp(): void
     {
         parent::setUp();
-        $this->resolver = new CategoryResolver();
+        $this->resolver = new CategoryResolver(app(CategoryService::class));
     }
 
     public function test_categories_returns_paginated_categories_with_default_args(): void

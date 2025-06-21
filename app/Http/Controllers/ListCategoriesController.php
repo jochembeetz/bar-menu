@@ -4,7 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\ListCategoriesRequest;
 use App\Http\Resources\CategoryResource;
-use App\Models\Category;
+use App\Services\CategoryService;
+use App\ValueObjects\CategoryFilters;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 
 /**
@@ -91,10 +92,20 @@ use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
  */
 class ListCategoriesController extends Controller
 {
+    public function __construct(
+        private readonly CategoryService $categoryService
+    ) {}
+
     public function __invoke(ListCategoriesRequest $request): AnonymousResourceCollection
     {
-        $categories = Category::orderBy($request->sortBy(), $request->sortOrder())
-            ->paginate($request->limit(), ['*'], 'page', $request->page());
+        $filters = CategoryFilters::withPagination([
+            'sortBy' => $request->sortBy(),
+            'sortOrder' => $request->sortOrder(),
+            'limit' => $request->limit(),
+            'page' => $request->page(),
+        ]);
+
+        $categories = $this->categoryService->getPaginatedCategories($filters);
 
         return CategoryResource::collection($categories);
     }

@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Http\Requests\ListCategoryProductsRequest;
 use App\Http\Resources\ProductResource;
 use App\Models\Category;
+use App\Services\CategoryService;
+use App\ValueObjects\CategoryFilters;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 use Illuminate\Http\JsonResponse;
 
@@ -116,12 +118,20 @@ use Illuminate\Http\JsonResponse;
  */
 class ListCategoryProductsController extends Controller
 {
+    public function __construct(
+        private readonly CategoryService $categoryService
+    ) {}
+
     public function __invoke(ListCategoryProductsRequest $request, Category $category): AnonymousResourceCollection|JsonResponse
     {
-        $products = $category->products()
-            ->with('ingredients')
-            ->orderBy($request->sortBy(), $request->sortOrder())
-            ->paginate($request->limit(), ['*'], 'page', $request->page());
+        $filters = CategoryFilters::withPagination([
+            'sortBy' => $request->sortBy(),
+            'sortOrder' => $request->sortOrder(),
+            'limit' => $request->limit(),
+            'page' => $request->page(),
+        ]);
+
+        $products = $this->categoryService->getCategoryProducts($category, $filters);
 
         return ProductResource::collection($products);
     }

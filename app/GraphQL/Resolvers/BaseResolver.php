@@ -90,7 +90,7 @@ abstract class BaseResolver
     /**
      * Validate pagination arguments and throw GraphQL error if invalid.
      */
-    private function validatePaginationArgs(array $args): void
+    protected function validatePaginationArgs(array $args): void
     {
         $first = $args['first'] ?? null;
         $page = $args['page'] ?? null;
