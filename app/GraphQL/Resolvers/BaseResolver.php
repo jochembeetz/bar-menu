@@ -2,10 +2,12 @@
 
 namespace App\GraphQL\Resolvers;
 
+use App\GraphQL\Resources\PaginatedResponse;
 use App\Validators\PaginationValidator;
 use App\Validators\SortingValidator;
 use GraphQL\Error\Error;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 
 abstract class BaseResolver
 {
@@ -28,19 +30,7 @@ abstract class BaseResolver
             $paginationParams['page']
         );
 
-        return [
-            'data' => $paginator->items(),
-            'paginatorInfo' => [
-                'count' => $paginator->count(),
-                'currentPage' => $paginator->currentPage(),
-                'firstItem' => $paginator->firstItem(),
-                'hasMorePages' => $paginator->hasMorePages(),
-                'lastItem' => $paginator->lastItem(),
-                'lastPage' => $paginator->lastPage(),
-                'perPage' => $paginator->perPage(),
-                'total' => $paginator->total(),
-            ],
-        ];
+        return PaginatedResponse::fromPaginator($paginator);
     }
 
     /**
@@ -62,19 +52,7 @@ abstract class BaseResolver
             $paginationParams['page']
         );
 
-        return [
-            'data' => $paginator->items(),
-            'paginatorInfo' => [
-                'count' => $paginator->count(),
-                'currentPage' => $paginator->currentPage(),
-                'firstItem' => $paginator->firstItem(),
-                'hasMorePages' => $paginator->hasMorePages(),
-                'lastItem' => $paginator->lastItem(),
-                'lastPage' => $paginator->lastPage(),
-                'perPage' => $paginator->perPage(),
-                'total' => $paginator->total(),
-            ],
-        ];
+        return PaginatedResponse::fromPaginator($paginator);
     }
 
     /**
@@ -85,6 +63,14 @@ abstract class BaseResolver
         $sortingParams = SortingValidator::fromGraphQLArgs($args);
         $relationship->orderBy($sortingParams['column'], $sortingParams['order']);
         return $relationship->get()->all();
+    }
+
+    /**
+     * Format a LengthAwarePaginator into the standard GraphQL response structure.
+     */
+    protected function formatPaginatorResponse(LengthAwarePaginator $paginator): array
+    {
+        return PaginatedResponse::fromPaginator($paginator);
     }
 
     /**

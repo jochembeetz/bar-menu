@@ -2,6 +2,7 @@
 
 namespace App\GraphQL\Resolvers;
 
+use App\GraphQL\Resources\PaginatedResponse;
 use App\Models\Category;
 use App\Services\CategoryService;
 use App\ValueObjects\CategoryFilters;
@@ -23,19 +24,7 @@ class CategoryResolver extends BaseResolver
 
         $paginator = $this->categoryService->getPaginatedCategories($filters);
 
-        return [
-            'data' => $paginator->items(),
-            'paginatorInfo' => [
-                'count' => count($paginator->items()),
-                'currentPage' => $paginator->currentPage(),
-                'firstItem' => $paginator->firstItem(),
-                'hasMorePages' => $paginator->hasMorePages(),
-                'lastItem' => $paginator->lastItem(),
-                'lastPage' => $paginator->lastPage(),
-                'perPage' => $paginator->perPage(),
-                'total' => $paginator->total(),
-            ],
-        ];
+        return PaginatedResponse::fromPaginator($paginator);
     }
 
     /**
@@ -49,19 +38,7 @@ class CategoryResolver extends BaseResolver
 
         $paginator = $this->categoryService->getCategoryProducts($root, $filters);
 
-        return [
-            'data' => $paginator->items(),
-            'paginatorInfo' => [
-                'count' => count($paginator->items()),
-                'currentPage' => $paginator->currentPage(),
-                'firstItem' => $paginator->firstItem(),
-                'hasMorePages' => $paginator->hasMorePages(),
-                'lastItem' => $paginator->lastItem(),
-                'lastPage' => $paginator->lastPage(),
-                'perPage' => $paginator->perPage(),
-                'total' => $paginator->total(),
-            ],
-        ];
+        return PaginatedResponse::fromPaginator($paginator);
     }
 
     /**
