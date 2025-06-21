@@ -65,10 +65,12 @@ jobs:
       run: find . -name "*.php" -not -path "./vendor/*" -not -path "./node_modules/*" -exec php -l {} \;
 
     - name: Run Composer security audit
-      run: composer audit --format=json --no-interaction > composer-audit.json || echo '{"vulnerabilities": []}' > composer-audit.json
+      run: |
+        composer audit --format=json --no-interaction > composer-audit.json || echo '{"vulnerabilities": []}' > composer-audit.json
 
     - name: Run npm audit
-      run: npm audit --audit-level=moderate --json > npm-audit.json 2>/dev/null || echo '{"vulnerabilities": []}' > npm-audit.json
+      run: |
+        npm audit --audit-level=moderate --json > npm-audit.json 2>/dev/null || echo '{"vulnerabilities": []}' > npm-audit.json
 
     - name: Check for hardcoded secrets
       run: |
