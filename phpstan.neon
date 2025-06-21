@@ -1,0 +1,18 @@
+includes:
+    - vendor/larastan/larastan/extension.neon
+    - vendor/nesbot/carbon/extension.neon
+
+parameters:
+    paths:
+        - app/
+        - config/
+        - database/
+        - resources/
+        - routes/
+        - tests/
+
+    # Level of rule strictness (0-9, 9 being strictest)
+    level: 5
+
+    excludePaths:
+        - ./*/*/FileToBeExcluded.php

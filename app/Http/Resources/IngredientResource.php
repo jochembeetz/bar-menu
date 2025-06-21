@@ -5,6 +5,9 @@ namespace App\Http\Resources;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
+/**
+ * @mixin \App\Models\Ingredient
+ */
 class IngredientResource extends JsonResource
 {
     /**
@@ -14,12 +17,19 @@ class IngredientResource extends JsonResource
      */
     public function toArray(Request $request): array
     {
+        $type = null;
+        if ($this->resource->relationLoaded('pivot')) {
+            /** @var \App\Models\IngredientProduct|null $pivot */
+            $pivot = $this->resource->pivot;
+            $type = $pivot?->type;
+        }
+
         return [
             'id' => $this->id,
             'name' => $this->name,
             'slug' => $this->slug,
             'description' => $this->description,
-            'type' => $this->pivot ? $this->pivot->type : null,
+            'type' => $type,
         ];
     }
 }

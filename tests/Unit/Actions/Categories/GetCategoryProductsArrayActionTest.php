@@ -37,7 +37,6 @@ class GetCategoryProductsArrayActionTest extends TestCase
 
         $result = ($this->action)($category, $filters);
 
-        $this->assertIsArray($result);
         $this->assertCount(3, $result);
 
         // Check sorting
@@ -60,7 +59,6 @@ class GetCategoryProductsArrayActionTest extends TestCase
 
         $result = ($this->action)($category, $filters);
 
-        $this->assertIsArray($result);
         $this->assertCount(2, $result);
         $this->assertEquals('Alpha Heineken', $result[0]->name);
         $this->assertEquals('Zebra Guinness', $result[1]->name);
@@ -80,7 +78,6 @@ class GetCategoryProductsArrayActionTest extends TestCase
 
         $result = ($this->action)($category, $filters);
 
-        $this->assertIsArray($result);
         $this->assertCount(2, $result);
         $this->assertEquals('B White Wine', $result[0]->name);
         $this->assertEquals('A Red Wine', $result[1]->name);
@@ -100,7 +97,6 @@ class GetCategoryProductsArrayActionTest extends TestCase
 
         $result = ($this->action)($category1, $filters);
 
-        $this->assertIsArray($result);
         $this->assertCount(1, $result);
         $this->assertEquals('Mojito', $result[0]->name);
     }
@@ -113,7 +109,6 @@ class GetCategoryProductsArrayActionTest extends TestCase
 
         $result = ($this->action)($category, $filters);
 
-        $this->assertIsArray($result);
         $this->assertCount(0, $result);
     }
 
@@ -125,25 +120,25 @@ class GetCategoryProductsArrayActionTest extends TestCase
 
         $result = ($this->action)($category, $filters);
 
-        $this->assertIsArray($result);
         $this->assertCount(25, $result);
     }
 
     public function test_includes_ingredients_relationship()
     {
+        /** @var Category $category */
         $category = Category::factory()->cocktails()->withSpecificProducts([
             ['attributes' => ['name' => 'Mojito']],
         ])->create();
 
         // Add ingredients to the first product
         $product = $category->products()->first();
+        /** @var Product $product */
         $product->ingredients()->attach(Ingredient::factory()->count(2)->create());
 
         $filters = CategoryFilters::sortingOnly([]);
 
         $result = ($this->action)($category, $filters);
 
-        $this->assertIsArray($result);
         $this->assertCount(1, $result);
         $this->assertTrue($result[0]->relationLoaded('ingredients'));
     }

@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 /**
  * @model
+ * @property \App\Models\CategoryProduct|null $pivot
  */
 class Category extends Model
 {
@@ -24,6 +25,7 @@ class Category extends Model
     public function products(): BelongsToMany
     {
         return $this->belongsToMany(Product::class)
+            ->using(CategoryProduct::class)
             ->withPivot('sort_order')
             ->withTimestamps();
     }

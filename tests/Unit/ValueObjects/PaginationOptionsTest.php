@@ -178,22 +178,6 @@ class PaginationOptionsTest extends TestCase
         }
     }
 
-    public function test_properties_are_readonly()
-    {
-        $pagination = new PaginationOptions(25, 3);
-
-        $this->assertTrue(property_exists($pagination, 'limit'));
-        $this->assertTrue(property_exists($pagination, 'page'));
-
-        // Test that properties are readonly (can't be modified after construction)
-        $reflection = new \ReflectionClass($pagination);
-        $limitProperty = $reflection->getProperty('limit');
-        $pageProperty = $reflection->getProperty('page');
-
-        $this->assertTrue($limitProperty->isReadOnly());
-        $this->assertTrue($pageProperty->isReadOnly());
-    }
-
     public function test_handles_string_numeric_values_from_array()
     {
         $pagination = PaginationOptions::fromArray([

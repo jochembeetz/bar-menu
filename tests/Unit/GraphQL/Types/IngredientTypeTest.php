@@ -23,6 +23,7 @@ class IngredientTypeTest extends TestCase
     public function test_it_returns_pivot_type_for_ingredient_with_pivot(): void
     {
         $product = Product::factory()->withIngredients(1, [], ['type' => 'base'])->create();
+        /** @var \App\Models\Ingredient $ingredientWithPivot */
         $ingredientWithPivot = $product->ingredients()->first();
 
         $result = $this->ingredientType->__invoke($ingredientWithPivot);
@@ -33,6 +34,7 @@ class IngredientTypeTest extends TestCase
     public function test_it_returns_optional_type_for_ingredient_with_pivot(): void
     {
         $product = Product::factory()->withIngredients(1, [], ['type' => 'optional'])->create();
+        /** @var \App\Models\Ingredient $ingredientWithPivot */
         $ingredientWithPivot = $product->ingredients()->first();
 
         $result = $this->ingredientType->__invoke($ingredientWithPivot);
@@ -43,6 +45,7 @@ class IngredientTypeTest extends TestCase
     public function test_it_returns_add_on_type_for_ingredient_with_pivot(): void
     {
         $product = Product::factory()->withIngredients(1, [], ['type' => 'add-on'])->create();
+        /** @var \App\Models\Ingredient $ingredientWithPivot */
         $ingredientWithPivot = $product->ingredients()->first();
 
         $result = $this->ingredientType->__invoke($ingredientWithPivot);
@@ -68,27 +71,6 @@ class IngredientTypeTest extends TestCase
         $this->assertNull($result);
     }
 
-    public function test_it_returns_null_for_null_input(): void
-    {
-        $result = $this->ingredientType->__invoke(null);
-
-        $this->assertNull($result);
-    }
-
-    public function test_it_returns_null_for_string_input(): void
-    {
-        $result = $this->ingredientType->__invoke('not an ingredient');
-
-        $this->assertNull($result);
-    }
-
-    public function test_it_returns_null_for_array_input(): void
-    {
-        $result = $this->ingredientType->__invoke(['id' => 1, 'name' => 'test']);
-
-        $this->assertNull($result);
-    }
-
     public function test_it_handles_multiple_ingredients_with_different_types(): void
     {
         $product = Product::factory()->withSpecificIngredients([
@@ -101,6 +83,7 @@ class IngredientTypeTest extends TestCase
 
         // Check that we have all three types, regardless of order
         $types = $ingredients->map(function ($ingredient) {
+            /** @var \App\Models\Ingredient $ingredient */
             return $this->ingredientType->__invoke($ingredient);
         })->sort()->values();
 

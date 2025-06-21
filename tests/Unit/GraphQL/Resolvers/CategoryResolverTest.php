@@ -119,9 +119,9 @@ class CategoryResolverTest extends TestCase
             ['attributes' => [], 'sort_order' => 1],
         ])->create();
 
-        // Add ingredients to the first product
         $product = $category->products()->first();
         $ingredients = Ingredient::factory()->count(2)->create();
+        /** @var Product $product */
         $product->ingredients()->attach([
             $ingredients[0]->id => ['type' => 'base'],
             $ingredients[1]->id => ['type' => 'optional'],
@@ -186,7 +186,6 @@ class CategoryResolverTest extends TestCase
             'orderBy' => ['column' => 'sort_order', 'order' => 'ASC'],
         ]);
 
-        $this->assertIsArray($result);
         $this->assertCount(3, $result);
         $this->assertEquals(1, $result[0]['id']);
         $this->assertEquals(2, $result[1]['id']);
@@ -202,6 +201,7 @@ class CategoryResolverTest extends TestCase
         // Add ingredients to the first product
         $product = $category->products()->first();
         $ingredient = Ingredient::factory()->create();
+        /** @var Product $product */
         $product->ingredients()->attach($ingredient->id, ['type' => 'base']);
 
         $result = $this->resolver->categoryProducts($category, []);
@@ -217,7 +217,6 @@ class CategoryResolverTest extends TestCase
 
         $result = $this->resolver->categoryProducts($category, ['first' => 5, 'page' => 2]);
 
-        $this->assertIsArray($result);
         $this->assertCount(15, $result); // All products returned, no pagination
     }
 

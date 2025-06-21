@@ -9,6 +9,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 
 /**
  * @model
+ * @property \App\Models\IngredientProduct|null $pivot
  */
 class Ingredient extends Model
 {
@@ -24,6 +25,7 @@ class Ingredient extends Model
     public function products(): BelongsToMany
     {
         return $this->belongsToMany(Product::class)
+            ->using(IngredientProduct::class)
             ->withPivot('type')
             ->withTimestamps();
     }

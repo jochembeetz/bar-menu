@@ -3,22 +3,22 @@
 namespace App\GraphQL\Types;
 
 use App\Models\Ingredient;
+use App\Models\Product;
 
 class IngredientType
 {
-    /**
-     * Resolve the ingredients relationship for a product with pivot data.
-     *
-     * @param  Product  $rootValue
-     * @param  array  $args
-     * @return Collection
-     */
-    public function __invoke($rootValue)
+    public function __invoke(Product|Ingredient $rootValue): ?string
     {
-        if (! $rootValue instanceof Ingredient) {
-            return;
+        if (!$rootValue instanceof Ingredient) {
+            return null;
         }
 
-        return $rootValue->pivot?->type;
+        if (!$rootValue->relationLoaded('pivot')) {
+            return null;
+        }
+
+        /** @var \App\Models\IngredientProduct|null $pivot */
+        $pivot = $rootValue->pivot;
+        return $pivot?->type;
     }
 }

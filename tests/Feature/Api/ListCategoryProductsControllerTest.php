@@ -62,6 +62,7 @@ class ListCategoryProductsControllerTest extends TestCase
         $sortOrders = [];
         foreach ($data as $product) {
             $pivot = $category->products()->where('product_id', $product['id'])->first()->pivot;
+            /** @var \App\Models\CategoryProduct $pivot */
             $sortOrders[] = $pivot->sort_order;
         }
 
@@ -88,6 +89,7 @@ class ListCategoryProductsControllerTest extends TestCase
         $sortOrders = [];
         foreach ($data as $product) {
             $pivot = $category->products()->where('product_id', $product['id'])->first()->pivot;
+            /** @var \App\Models\CategoryProduct $pivot */
             $sortOrders[] = $pivot->sort_order;
         }
 
@@ -262,6 +264,7 @@ class ListCategoryProductsControllerTest extends TestCase
         $sortOrders = [];
         foreach ($data as $product) {
             $pivot = $category->products()->where('product_id', $product['id'])->first()->pivot;
+            /** @var \App\Models\CategoryProduct $pivot */
             $sortOrders[] = $pivot->sort_order;
         }
 
@@ -288,6 +291,7 @@ class ListCategoryProductsControllerTest extends TestCase
         $sortOrders = [];
         foreach ($data as $product) {
             $pivot = $category->products()->where('product_id', $product['id'])->first()->pivot;
+            /** @var \App\Models\CategoryProduct $pivot */
             $sortOrders[] = $pivot->sort_order;
         }
 
@@ -317,6 +321,7 @@ class ListCategoryProductsControllerTest extends TestCase
         ])->create();
 
         // Get the first product and add ingredients to it
+        /** @var \App\Models\Product $product */
         $product = $category->products()->first();
         $product->ingredients()->attach([
             Ingredient::factory()->create()->id => ['type' => 'base'],

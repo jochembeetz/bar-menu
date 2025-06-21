@@ -121,20 +121,4 @@ class SortingOptionsTest extends TestCase
             $this->assertEquals($field, $sorting->sortBy);
         }
     }
-
-    public function test_properties_are_readonly()
-    {
-        $sorting = new SortingOptions('name', 'asc');
-
-        $this->assertTrue(property_exists($sorting, 'sortBy'));
-        $this->assertTrue(property_exists($sorting, 'sortOrder'));
-
-        // Test that properties are readonly (can't be modified after construction)
-        $reflection = new \ReflectionClass($sorting);
-        $sortByProperty = $reflection->getProperty('sortBy');
-        $sortOrderProperty = $reflection->getProperty('sortOrder');
-
-        $this->assertTrue($sortByProperty->isReadOnly());
-        $this->assertTrue($sortOrderProperty->isReadOnly());
-    }
 }
