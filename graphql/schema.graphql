@@ -29,7 +29,7 @@ type Query {
       "Page number."
       page: Int
       "Order by a specific column."
-      orderBy: OrderByInput
+      orderBy: OrderByInput = {column: "slug", order: ASC}
     ): ProductConnection! @field(resolver: "App\\GraphQL\\Resolvers\\ProductResolver@products")
 
     "List multiple ingredients."
@@ -39,7 +39,7 @@ type Query {
       "Page number."
       page: Int
       "Order by a specific column."
-      orderBy: OrderByInput
+      orderBy: OrderByInput = {column: "slug", order: ASC}
     ): IngredientConnection! @field(resolver: "App\\GraphQL\\Resolvers\\IngredientResolver@ingredients")
 }
 

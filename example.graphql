@@ -21,3 +21,30 @@ query GetCategoriesOrderedAndPaginated {
     }
   }
 }
+
+query GetProductsWithIngredients{
+  products {
+    data {
+      id
+      name
+      ingredients {
+        id
+        name
+        type
+      }
+    }
+  }
+}
+
+query GetIngredientsWithProducts{
+  ingredients {
+  	data {
+      id
+      name
+      products {
+        id
+        name
+      }
+    }
+  }
+}
