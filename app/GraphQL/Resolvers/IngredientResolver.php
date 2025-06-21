@@ -13,7 +13,7 @@ final class IngredientResolver extends BaseResolver
      */
     public function ingredients($root, array $args): array
     {
-        $query = Ingredient::query();
+        $query = Ingredient::query()->with(['products']);
 
         return $this->applyPaginationAndSorting($query, $args);
     }

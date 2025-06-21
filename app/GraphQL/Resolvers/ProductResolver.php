@@ -13,8 +13,10 @@ final class ProductResolver extends BaseResolver
      */
     public function products($root, array $args): array
     {
-        $query = Product::query();
+        $query = Product::query()->with(['categories', 'ingredients']);
 
-        return $this->applyPaginationAndSorting($query, $args);
+        return $this->applyPaginationAndSorting($query, $args, [
+            'price_in_cents'
+        ]);
     }
 }

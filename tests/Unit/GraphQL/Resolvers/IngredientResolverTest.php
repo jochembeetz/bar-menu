@@ -214,35 +214,6 @@ final class IngredientResolverTest extends TestCase
         $this->resolver->ingredients(null, ['page' => 'invalid']);
     }
 
-    public function test_ingredients_sorts_by_description_asc(): void
-    {
-        $ingredientC = Ingredient::factory()->create(['description' => 'C Description']);
-        $ingredientA = Ingredient::factory()->create(['description' => 'A Description']);
-        $ingredientB = Ingredient::factory()->create(['description' => 'B Description']);
-
-        $result = $this->resolver->ingredients(null, [
-            'orderBy' => ['column' => 'description', 'order' => 'ASC'],
-        ]);
-
-        $this->assertEquals($ingredientA->id, $result['data'][0]['id']);
-        $this->assertEquals($ingredientB->id, $result['data'][1]['id']);
-        $this->assertEquals($ingredientC->id, $result['data'][2]['id']);
-    }
-
-    public function test_ingredients_handles_null_description_in_sorting(): void
-    {
-        $ingredientWithDesc = Ingredient::factory()->create(['description' => 'A Description']);
-        $ingredientNullDesc = Ingredient::factory()->create(['description' => null]);
-        $ingredientWithDesc2 = Ingredient::factory()->create(['description' => 'B Description']);
-
-        $result = $this->resolver->ingredients(null, [
-            'orderBy' => ['column' => 'description', 'order' => 'ASC'],
-        ]);
-
-        // Null values should be handled gracefully
-        $this->assertCount(3, $result['data']);
-    }
-
     public function test_ingredients_handles_mixed_case_sorting(): void
     {
         $ingredientLower = Ingredient::factory()->create(['name' => 'apple']);

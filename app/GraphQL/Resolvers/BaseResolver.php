@@ -16,12 +16,12 @@ abstract class BaseResolver
     /**
      * Apply pagination and sorting to a query builder.
      */
-    protected function applyPaginationAndSorting(Builder $query, array $args): array
+    protected function applyPaginationAndSorting(Builder $query, array $args, array $extraAllowedSortFields = []): array
     {
         $this->validatePaginationArgs($args);
 
         $paginationParams = PaginationValidator::fromGraphQLArgs($args);
-        $sortingParams = SortingValidator::fromGraphQLArgs($args);
+        $sortingParams = SortingValidator::fromGraphQLArgs($args, $extraAllowedSortFields);
 
         $query->orderBy($sortingParams['column'], $sortingParams['order']);
 
@@ -38,12 +38,12 @@ abstract class BaseResolver
     /**
      * Apply pagination and sorting to a relationship query.
      */
-    protected function applyPaginationAndSortingToRelationship($relationship, array $args): array
+    protected function applyPaginationAndSortingToRelationship($relationship, array $args, array $extraAllowedSortFields = []): array
     {
         $this->validatePaginationArgs($args);
 
         $paginationParams = PaginationValidator::fromGraphQLArgs($args);
-        $sortingParams = SortingValidator::fromGraphQLArgs($args);
+        $sortingParams = SortingValidator::fromGraphQLArgs($args, $extraAllowedSortFields);
 
         $relationship->orderBy($sortingParams['column'], $sortingParams['order']);
 
@@ -60,9 +60,9 @@ abstract class BaseResolver
     /**
      * Apply sorting to a relationship query and return a simple array (no pagination).
      */
-    protected function applySortingToRelationship($relationship, array $args): array
+    protected function applySortingToRelationship($relationship, array $args, array $extraAllowedSortFields = []): array
     {
-        $sortingParams = SortingValidator::fromGraphQLArgs($args);
+        $sortingParams = SortingValidator::fromGraphQLArgs($args, $extraAllowedSortFields);
         $relationship->orderBy($sortingParams['column'], $sortingParams['order']);
 
         return $relationship->get()->all();

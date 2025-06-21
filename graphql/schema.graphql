@@ -19,7 +19,7 @@ type Query {
       "Page number."
       page: Int
       "Order by a specific column."
-      orderBy: OrderByInput
+      orderBy: OrderByInput = {column: "sort_order", order: ASC}
     ): CategoryConnection! @field(resolver: "App\\GraphQL\\Resolvers\\CategoryResolver@categories")
 
     "List multiple products."
