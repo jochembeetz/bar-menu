@@ -14,10 +14,9 @@ type Query {
 
     "List multiple categories."
     categories(
-      "Order by sort_order."
-      orderBy: _ @orderBy(columns: ["sort_order"])
-
-    ): [Category!]! @paginate(defaultCount: 10, maxCount: 100)
+      "Order by a specific column."
+      orderBy: _ @orderBy(columns: ["sort_order", "slug", "created_at"])
+    ): [Category!]! @paginate(defaultCount: 10, maxCount: 100) @orderBy(column: "sort_order")
 }
 
 "Category of items in the menu."

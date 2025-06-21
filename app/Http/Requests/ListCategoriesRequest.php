@@ -9,7 +9,7 @@ class ListCategoriesRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'sortBy' => 'nullable|string|in:sort_order',
+            'sortBy' => 'nullable|string|in:sort_order,slug,created_at',
             'sortOrder' => 'nullable|string|in:asc,desc',
             'limit' => 'nullable|integer|min:1|max:100',
             'page' => 'nullable|integer|min:1',
@@ -19,7 +19,7 @@ class ListCategoriesRequest extends FormRequest
     public function messages(): array
     {
         return [
-            'sortBy.in' => 'The sortBy field must be one of the following: sort_order.',
+            'sortBy.in' => 'The sortBy field must be one of the following: sort_order, slug, created_at.',
             'sortOrder.in' => 'The sortOrder field must be one of the following: asc, desc.',
             'limit.integer' => 'The limit field must be an integer.',
             'limit.min' => 'The limit field must be at least 1.',
