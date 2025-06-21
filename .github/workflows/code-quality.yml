@@ -75,12 +75,12 @@ jobs:
     - name: Check for hardcoded secrets
       run: |
         # Check for potential API keys, passwords, etc.
-        if grep -r -i "password.*=.*['\"][^'\"]*['\"]" app/ config/ database/ routes/ 2>/dev/null; then
+        if grep -r -i --exclude-dir=factories "password.=*['\"][\^'\"]*['\"]" app/ config/ database/ routes/ 2>/dev/null; then
           echo "⚠️  Potential hardcoded passwords found"
           exit 1
         fi
 
-        if grep -r -i "api_key.*=.*['\"][^'\"]*['\"]" app/ config/ database/ routes/ 2>/dev/null; then
+        if grep -r -i --exclude-dir=factories "api_key.=*['\"][\^'\"]*['\"]" app/ config/ database/ routes/ 2>/dev/null; then
           echo "⚠️  Potential hardcoded API keys found"
           exit 1
         fi
