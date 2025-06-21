@@ -36,7 +36,7 @@ class PaginationOptionsTest extends TestCase
     {
         $pagination = PaginationOptions::fromArray([
             'limit' => 50,
-            'page' => 3
+            'page' => 3,
         ]);
 
         $this->assertEquals(50, $pagination->limit);
@@ -54,7 +54,7 @@ class PaginationOptionsTest extends TestCase
     public function test_from_array_with_partial_parameters()
     {
         $pagination = PaginationOptions::fromArray([
-            'limit' => 15
+            'limit' => 15,
         ]);
 
         $this->assertEquals(15, $pagination->limit);
@@ -64,7 +64,7 @@ class PaginationOptionsTest extends TestCase
     public function test_from_array_with_only_page()
     {
         $pagination = PaginationOptions::fromArray([
-            'page' => 5
+            'page' => 5,
         ]);
 
         $this->assertEquals(10, $pagination->limit);
@@ -75,7 +75,7 @@ class PaginationOptionsTest extends TestCase
     {
         $pagination = PaginationOptions::fromGraphQLArgs([
             'first' => 20,
-            'page' => 4
+            'page' => 4,
         ]);
 
         $this->assertEquals(20, $pagination->limit);
@@ -93,7 +93,7 @@ class PaginationOptionsTest extends TestCase
     public function test_from_graphql_args_with_partial_parameters()
     {
         $pagination = PaginationOptions::fromGraphQLArgs([
-            'first' => 30
+            'first' => 30,
         ]);
 
         $this->assertEquals(30, $pagination->limit);
@@ -103,7 +103,7 @@ class PaginationOptionsTest extends TestCase
     public function test_from_graphql_args_with_only_page()
     {
         $pagination = PaginationOptions::fromGraphQLArgs([
-            'page' => 7
+            'page' => 7,
         ]);
 
         $this->assertEquals(10, $pagination->limit);
@@ -198,7 +198,7 @@ class PaginationOptionsTest extends TestCase
     {
         $pagination = PaginationOptions::fromArray([
             'limit' => '25',
-            'page' => '3'
+            'page' => '3',
         ]);
 
         $this->assertEquals(25, $pagination->limit);
@@ -209,7 +209,7 @@ class PaginationOptionsTest extends TestCase
     {
         $pagination = PaginationOptions::fromGraphQLArgs([
             'first' => '30',
-            'page' => '5'
+            'page' => '5',
         ]);
 
         $this->assertEquals(30, $pagination->limit);

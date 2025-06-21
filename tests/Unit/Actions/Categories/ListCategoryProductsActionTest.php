@@ -4,7 +4,6 @@ namespace Tests\Unit\Actions\Categories;
 
 use App\Actions\Categories\ListCategoryProductsAction;
 use App\Models\Category;
-use App\Models\Product;
 use App\ValueObjects\CategoryFilters;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
@@ -18,7 +17,7 @@ class ListCategoryProductsActionTest extends TestCase
     protected function setUp(): void
     {
         parent::setUp();
-        $this->action = new ListCategoryProductsAction();
+        $this->action = new ListCategoryProductsAction;
     }
 
     public function test_lists_category_products_with_pagination_and_sorting()
@@ -33,7 +32,7 @@ class ListCategoryProductsActionTest extends TestCase
             'sortBy' => 'sort_order',
             'sortOrder' => 'asc',
             'limit' => 2,
-            'page' => 1
+            'page' => 1,
         ]);
 
         $result = ($this->action)($category, $filters);
@@ -60,7 +59,7 @@ class ListCategoryProductsActionTest extends TestCase
             'sortBy' => 'name',
             'sortOrder' => 'asc',
             'limit' => 10,
-            'page' => 1
+            'page' => 1,
         ]);
 
         $result = ($this->action)($category, $filters);
@@ -81,7 +80,7 @@ class ListCategoryProductsActionTest extends TestCase
             'sortBy' => 'sort_order',
             'sortOrder' => 'desc',
             'limit' => 10,
-            'page' => 1
+            'page' => 1,
         ]);
 
         $result = ($this->action)($category, $filters);
@@ -103,7 +102,7 @@ class ListCategoryProductsActionTest extends TestCase
 
         $filters = CategoryFilters::withPagination([
             'limit' => 10,
-            'page' => 1
+            'page' => 1,
         ]);
 
         $result = ($this->action)($category1, $filters);
@@ -118,7 +117,7 @@ class ListCategoryProductsActionTest extends TestCase
 
         $filters = CategoryFilters::withPagination([
             'limit' => 10,
-            'page' => 1
+            'page' => 1,
         ]);
 
         $result = ($this->action)($category, $filters);
@@ -133,7 +132,7 @@ class ListCategoryProductsActionTest extends TestCase
 
         $filters = CategoryFilters::withPagination([
             'limit' => 3,
-            'page' => 2
+            'page' => 2,
         ]);
 
         $result = ($this->action)($category, $filters);

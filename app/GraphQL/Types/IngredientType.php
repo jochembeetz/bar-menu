@@ -9,14 +9,14 @@ class IngredientType
     /**
      * Resolve the ingredients relationship for a product with pivot data.
      *
-     * @param Product $rootValue
-     * @param array $args
+     * @param  Product  $rootValue
+     * @param  array  $args
      * @return Collection
      */
     public function __invoke($rootValue)
     {
-        if (!$rootValue instanceof Ingredient) {
-            return null;
+        if (! $rootValue instanceof Ingredient) {
+            return;
         }
 
         return $rootValue->pivot?->type;

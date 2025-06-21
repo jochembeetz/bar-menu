@@ -17,7 +17,7 @@ class ProductResolverTest extends TestCase
     protected function setUp(): void
     {
         parent::setUp();
-        $this->resolver = new ProductResolver();
+        $this->resolver = new ProductResolver;
     }
 
     public function test_products_returns_paginated_products_with_default_args(): void
@@ -57,7 +57,6 @@ class ProductResolverTest extends TestCase
         $this->assertTrue($result['paginatorInfo']['hasMorePages']);
     }
 
-
     public function test_products_sorts_by_name_asc(): void
     {
         $productC = Product::factory()->create(['name' => 'C Product']);
@@ -65,7 +64,7 @@ class ProductResolverTest extends TestCase
         $productB = Product::factory()->create(['name' => 'B Product']);
 
         $result = $this->resolver->products(null, [
-            'orderBy' => ['column' => 'name', 'order' => 'ASC']
+            'orderBy' => ['column' => 'name', 'order' => 'ASC'],
         ]);
 
         $this->assertEquals($productA->id, $result['data'][0]['id']);
@@ -80,7 +79,7 @@ class ProductResolverTest extends TestCase
         $productMedium = Product::factory()->create(['price_in_cents' => 1000]);
 
         $result = $this->resolver->products(null, [
-            'orderBy' => ['column' => 'price_in_cents', 'order' => 'DESC']
+            'orderBy' => ['column' => 'price_in_cents', 'order' => 'DESC'],
         ]);
 
         $this->assertEquals($productExpensive->id, $result['data'][0]['id']);
@@ -95,7 +94,7 @@ class ProductResolverTest extends TestCase
         $product3 = Product::factory()->create();
 
         $result = $this->resolver->products(null, [
-            'orderBy' => ['column' => 'created_at', 'order' => 'ASC']
+            'orderBy' => ['column' => 'created_at', 'order' => 'ASC'],
         ]);
 
         $this->assertEquals($product1->id, $result['data'][0]['id']);

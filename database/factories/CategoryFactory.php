@@ -39,7 +39,7 @@ class CategoryFactory extends Factory
 
             foreach ($products as $index => $product) {
                 $category->products()->attach($product->id, [
-                    'sort_order' => $productAttributes['sort_order'] ?? ($index + 1)
+                    'sort_order' => $productAttributes['sort_order'] ?? ($index + 1),
                 ]);
             }
         });
@@ -54,7 +54,7 @@ class CategoryFactory extends Factory
             foreach ($products as $productData) {
                 $product = Product::factory()->create($productData['attributes'] ?? []);
                 $category->products()->attach($product->id, [
-                    'sort_order' => $productData['sort_order'] ?? 1
+                    'sort_order' => $productData['sort_order'] ?? 1,
                 ]);
             }
         });

@@ -2,9 +2,9 @@
 
 namespace Database\Seeders;
 
-use App\Models\Product;
 use App\Models\Category;
 use App\Models\Ingredient;
+use App\Models\Product;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
@@ -34,7 +34,9 @@ class ProductSeeder extends Seeder
     private function createCocktails($categories, $ingredients): void
     {
         $cocktailCategory = $categories->get('cocktails');
-        if (!$cocktailCategory) return;
+        if (! $cocktailCategory) {
+            return;
+        }
 
         // Mojito
         $mojito = Product::factory()->mojito()->create();
@@ -81,7 +83,9 @@ class ProductSeeder extends Seeder
     private function createBeers($categories, $ingredients): void
     {
         $beerCategory = $categories->get('beers');
-        if (!$beerCategory) return;
+        if (! $beerCategory) {
+            return;
+        }
 
         // Heineken
         $heineken = Product::factory()->heineken()->create();
@@ -102,7 +106,9 @@ class ProductSeeder extends Seeder
     private function createWines($categories): void
     {
         $wineCategory = $categories->get('wines');
-        if (!$wineCategory) return;
+        if (! $wineCategory) {
+            return;
+        }
 
         // House Red Wine
         $redWine = Product::factory()->houseRedWine()->create();
@@ -120,7 +126,9 @@ class ProductSeeder extends Seeder
     private function createSoftDrinks($categories): void
     {
         $softDrinkCategory = $categories->get('soft-drinks');
-        if (!$softDrinkCategory) return;
+        if (! $softDrinkCategory) {
+            return;
+        }
 
         // Coca Cola
         $cocaCola = Product::factory()->cocaCola()->create();
@@ -138,7 +146,9 @@ class ProductSeeder extends Seeder
     private function createMocktails($categories, $ingredients): void
     {
         $mocktailCategory = $categories->get('mocktails');
-        if (!$mocktailCategory) return;
+        if (! $mocktailCategory) {
+            return;
+        }
 
         // Virgin Mojito
         $virginMojito = Product::factory()->virginMojito()->create();

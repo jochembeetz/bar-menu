@@ -4,8 +4,8 @@ namespace Tests\Unit\GraphQL\Resolvers;
 
 use App\GraphQL\Resolvers\CategoryResolver;
 use App\Models\Category;
-use App\Models\Product;
 use App\Models\Ingredient;
+use App\Models\Product;
 use App\Services\CategoryService;
 use GraphQL\Error\Error;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -67,7 +67,7 @@ class CategoryResolverTest extends TestCase
         $category2 = Category::factory()->create(['sort_order' => 2]);
 
         $result = $this->resolver->categories(null, [
-            'orderBy' => ['column' => 'sort_order', 'order' => 'ASC']
+            'orderBy' => ['column' => 'sort_order', 'order' => 'ASC'],
         ]);
 
         $this->assertEquals($category1->id, $result['data'][0]['id']);
@@ -155,7 +155,7 @@ class CategoryResolverTest extends TestCase
         ])->create();
 
         $result = $this->resolver->products($category, [
-            'orderBy' => ['column' => 'sort_order', 'order' => 'ASC']
+            'orderBy' => ['column' => 'sort_order', 'order' => 'ASC'],
         ]);
 
         $products = $result['data'];
@@ -174,7 +174,7 @@ class CategoryResolverTest extends TestCase
         $this->resolver->products($category, ['first' => 101]);
     }
 
-    public function test_categoryProducts_returns_sorted_products_without_pagination(): void
+    public function test_category_products_returns_sorted_products_without_pagination(): void
     {
         $category = Category::factory()->withSpecificProducts([
             ['attributes' => [], 'sort_order' => 1],
@@ -183,7 +183,7 @@ class CategoryResolverTest extends TestCase
         ])->create();
 
         $result = $this->resolver->categoryProducts($category, [
-            'orderBy' => ['column' => 'sort_order', 'order' => 'ASC']
+            'orderBy' => ['column' => 'sort_order', 'order' => 'ASC'],
         ]);
 
         $this->assertIsArray($result);
@@ -193,7 +193,7 @@ class CategoryResolverTest extends TestCase
         $this->assertEquals(3, $result[2]['id']);
     }
 
-    public function test_categoryProducts_includes_ingredients_relationship(): void
+    public function test_category_products_includes_ingredients_relationship(): void
     {
         $category = Category::factory()->withSpecificProducts([
             ['attributes' => [], 'sort_order' => 1],
@@ -211,7 +211,7 @@ class CategoryResolverTest extends TestCase
         $this->assertCount(1, $result[0]->ingredients);
     }
 
-    public function test_categoryProducts_ignores_pagination_parameters(): void
+    public function test_category_products_ignores_pagination_parameters(): void
     {
         $category = Category::factory()->withProducts(15)->create();
 
@@ -221,7 +221,7 @@ class CategoryResolverTest extends TestCase
         $this->assertCount(15, $result); // All products returned, no pagination
     }
 
-    public function test_categoryProducts_uses_default_sorting_when_no_order_by(): void
+    public function test_category_products_uses_default_sorting_when_no_order_by(): void
     {
         $category = Category::factory()->withSpecificProducts([
             ['attributes' => [], 'sort_order' => 1],

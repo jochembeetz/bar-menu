@@ -4,8 +4,8 @@ namespace Tests\Unit\Http\Requests;
 
 use App\Http\Requests\ListCategoryProductsRequest;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Tests\TestCase;
 use Illuminate\Support\Facades\Validator;
+use Tests\TestCase;
 
 class ListCategoryProductsRequestTest extends TestCase
 {
@@ -13,7 +13,7 @@ class ListCategoryProductsRequestTest extends TestCase
 
     public function test_it_validates_sort_by_field()
     {
-        $request = new ListCategoryProductsRequest();
+        $request = new ListCategoryProductsRequest;
         $validator = Validator::make(['sortBy' => 'invalid'], $request->rules(), $request->messages());
 
         $this->assertTrue($validator->fails());
@@ -22,7 +22,7 @@ class ListCategoryProductsRequestTest extends TestCase
 
     public function test_it_validates_sort_order_field()
     {
-        $request = new ListCategoryProductsRequest();
+        $request = new ListCategoryProductsRequest;
         $validator = Validator::make(['sortOrder' => 'invalid'], $request->rules(), $request->messages());
 
         $this->assertTrue($validator->fails());
@@ -31,7 +31,7 @@ class ListCategoryProductsRequestTest extends TestCase
 
     public function test_it_validates_limit_field_minimum()
     {
-        $request = new ListCategoryProductsRequest();
+        $request = new ListCategoryProductsRequest;
         $validator = Validator::make(['limit' => 0], $request->rules(), $request->messages());
 
         $this->assertTrue($validator->fails());
@@ -40,7 +40,7 @@ class ListCategoryProductsRequestTest extends TestCase
 
     public function test_it_validates_limit_field_maximum()
     {
-        $request = new ListCategoryProductsRequest();
+        $request = new ListCategoryProductsRequest;
         $validator = Validator::make(['limit' => 101], $request->rules(), $request->messages());
 
         $this->assertTrue($validator->fails());
@@ -49,7 +49,7 @@ class ListCategoryProductsRequestTest extends TestCase
 
     public function test_it_validates_page_field_minimum()
     {
-        $request = new ListCategoryProductsRequest();
+        $request = new ListCategoryProductsRequest;
         $validator = Validator::make(['page' => 0], $request->rules(), $request->messages());
 
         $this->assertTrue($validator->fails());
@@ -58,7 +58,7 @@ class ListCategoryProductsRequestTest extends TestCase
 
     public function test_it_accepts_valid_data()
     {
-        $request = new ListCategoryProductsRequest();
+        $request = new ListCategoryProductsRequest;
         $data = [
             'sortBy' => 'name',
             'sortOrder' => 'desc',
@@ -73,7 +73,7 @@ class ListCategoryProductsRequestTest extends TestCase
 
     public function test_it_accepts_empty_data()
     {
-        $request = new ListCategoryProductsRequest();
+        $request = new ListCategoryProductsRequest;
         $validator = Validator::make([], $request->rules(), $request->messages());
 
         $this->assertFalse($validator->fails());
@@ -81,7 +81,7 @@ class ListCategoryProductsRequestTest extends TestCase
 
     public function test_it_accepts_partial_data()
     {
-        $request = new ListCategoryProductsRequest();
+        $request = new ListCategoryProductsRequest;
         $data = [
             'sortBy' => 'name',
             'limit' => 25,
@@ -94,7 +94,7 @@ class ListCategoryProductsRequestTest extends TestCase
 
     public function test_it_accepts_valid_sort_by_values()
     {
-        $request = new ListCategoryProductsRequest();
+        $request = new ListCategoryProductsRequest;
         $validValues = ['sort_order', 'slug', 'created_at', 'name', 'price_in_cents'];
 
         foreach ($validValues as $value) {
@@ -105,7 +105,7 @@ class ListCategoryProductsRequestTest extends TestCase
 
     public function test_it_accepts_valid_sort_order_values()
     {
-        $request = new ListCategoryProductsRequest();
+        $request = new ListCategoryProductsRequest;
 
         $ascValidator = Validator::make(['sortOrder' => 'asc'], $request->rules(), $request->messages());
         $descValidator = Validator::make(['sortOrder' => 'desc'], $request->rules(), $request->messages());
@@ -116,7 +116,7 @@ class ListCategoryProductsRequestTest extends TestCase
 
     public function test_it_accepts_valid_limit_values()
     {
-        $request = new ListCategoryProductsRequest();
+        $request = new ListCategoryProductsRequest;
 
         $minValidator = Validator::make(['limit' => 1], $request->rules(), $request->messages());
         $maxValidator = Validator::make(['limit' => 100], $request->rules(), $request->messages());
@@ -129,7 +129,7 @@ class ListCategoryProductsRequestTest extends TestCase
 
     public function test_it_accepts_valid_page_values()
     {
-        $request = new ListCategoryProductsRequest();
+        $request = new ListCategoryProductsRequest;
 
         $minValidator = Validator::make(['page' => 1], $request->rules(), $request->messages());
         $higherValidator = Validator::make(['page' => 10], $request->rules(), $request->messages());
@@ -140,7 +140,7 @@ class ListCategoryProductsRequestTest extends TestCase
 
     public function test_it_validates_limit_as_string()
     {
-        $request = new ListCategoryProductsRequest();
+        $request = new ListCategoryProductsRequest;
         $validator = Validator::make(['limit' => 'abc'], $request->rules(), $request->messages());
 
         $this->assertTrue($validator->fails());
@@ -149,7 +149,7 @@ class ListCategoryProductsRequestTest extends TestCase
 
     public function test_it_validates_page_as_string()
     {
-        $request = new ListCategoryProductsRequest();
+        $request = new ListCategoryProductsRequest;
         $validator = Validator::make(['page' => 'abc'], $request->rules(), $request->messages());
 
         $this->assertTrue($validator->fails());
@@ -158,7 +158,7 @@ class ListCategoryProductsRequestTest extends TestCase
 
     public function test_it_validates_sort_by_as_integer()
     {
-        $request = new ListCategoryProductsRequest();
+        $request = new ListCategoryProductsRequest;
         $validator = Validator::make(['sortBy' => 123], $request->rules(), $request->messages());
 
         $this->assertTrue($validator->fails());
@@ -167,7 +167,7 @@ class ListCategoryProductsRequestTest extends TestCase
 
     public function test_it_validates_sort_order_as_integer()
     {
-        $request = new ListCategoryProductsRequest();
+        $request = new ListCategoryProductsRequest;
         $validator = Validator::make(['sortOrder' => 123], $request->rules(), $request->messages());
 
         $this->assertTrue($validator->fails());

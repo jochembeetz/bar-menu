@@ -2,9 +2,9 @@
 
 namespace Database\Factories;
 
-use App\Models\Product;
-use App\Models\Ingredient;
 use App\Models\Category;
+use App\Models\Ingredient;
+use App\Models\Product;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Str;
 
@@ -40,7 +40,7 @@ class ProductFactory extends Factory
 
             foreach ($ingredients as $index => $ingredient) {
                 $product->ingredients()->attach($ingredient->id, [
-                    'type' => $pivotAttributes['type'] ?? 'base'
+                    'type' => $pivotAttributes['type'] ?? 'base',
                 ]);
             }
         });
@@ -55,7 +55,7 @@ class ProductFactory extends Factory
             foreach ($ingredients as $ingredientData) {
                 $ingredient = Ingredient::factory()->create($ingredientData['attributes'] ?? []);
                 $product->ingredients()->attach($ingredient->id, [
-                    'type' => $ingredientData['pivot']['type'] ?? 'base'
+                    'type' => $ingredientData['pivot']['type'] ?? 'base',
                 ]);
             }
         });

@@ -2,9 +2,6 @@
 
 namespace App\ValueObjects;
 
-use App\ValueObjects\SortingOptions;
-use App\ValueObjects\PaginationOptions;
-
 class CategoryFilters
 {
     public function __construct(
@@ -67,7 +64,7 @@ class CategoryFilters
      */
     public function getPagination(): PaginationOptions
     {
-        if (!$this->hasPagination()) {
+        if (! $this->hasPagination()) {
             throw new \InvalidArgumentException('Pagination options not available');
         }
 

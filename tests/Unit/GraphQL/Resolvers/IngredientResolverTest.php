@@ -17,7 +17,7 @@ class IngredientResolverTest extends TestCase
     protected function setUp(): void
     {
         parent::setUp();
-        $this->resolver = new IngredientResolver();
+        $this->resolver = new IngredientResolver;
     }
 
     public function test_ingredients_returns_paginated_ingredients_with_default_args(): void
@@ -64,7 +64,7 @@ class IngredientResolverTest extends TestCase
         $ingredient2 = Ingredient::factory()->create(['name' => 'B Ingredient']);
 
         $result = $this->resolver->ingredients(null, [
-            'orderBy' => ['column' => 'name', 'order' => 'ASC']
+            'orderBy' => ['column' => 'name', 'order' => 'ASC'],
         ]);
 
         $this->assertEquals($ingredient1->id, $result['data'][0]['id']);
@@ -79,7 +79,7 @@ class IngredientResolverTest extends TestCase
         $ingredient3 = Ingredient::factory()->create(['name' => 'C Ingredient']);
 
         $result = $this->resolver->ingredients(null, [
-            'orderBy' => ['column' => 'name', 'order' => 'DESC']
+            'orderBy' => ['column' => 'name', 'order' => 'DESC'],
         ]);
 
         $this->assertEquals($ingredient3->id, $result['data'][0]['id']);
@@ -94,7 +94,7 @@ class IngredientResolverTest extends TestCase
         $ingredientB = Ingredient::factory()->create(['slug' => 'b-ingredient']);
 
         $result = $this->resolver->ingredients(null, [
-            'orderBy' => ['column' => 'slug', 'order' => 'ASC']
+            'orderBy' => ['column' => 'slug', 'order' => 'ASC'],
         ]);
 
         $this->assertEquals($ingredientA->id, $result['data'][0]['id']);
@@ -109,7 +109,7 @@ class IngredientResolverTest extends TestCase
         $ingredient3 = Ingredient::factory()->create(['created_at' => now()]);
 
         $result = $this->resolver->ingredients(null, [
-            'orderBy' => ['column' => 'created_at', 'order' => 'DESC']
+            'orderBy' => ['column' => 'created_at', 'order' => 'DESC'],
         ]);
 
         $this->assertEquals($ingredient3->id, $result['data'][0]['id']);
@@ -219,7 +219,7 @@ class IngredientResolverTest extends TestCase
         $ingredientB = Ingredient::factory()->create(['description' => 'B Description']);
 
         $result = $this->resolver->ingredients(null, [
-            'orderBy' => ['column' => 'description', 'order' => 'ASC']
+            'orderBy' => ['column' => 'description', 'order' => 'ASC'],
         ]);
 
         $this->assertEquals($ingredientA->id, $result['data'][0]['id']);
@@ -234,7 +234,7 @@ class IngredientResolverTest extends TestCase
         $ingredientWithDesc2 = Ingredient::factory()->create(['description' => 'B Description']);
 
         $result = $this->resolver->ingredients(null, [
-            'orderBy' => ['column' => 'description', 'order' => 'ASC']
+            'orderBy' => ['column' => 'description', 'order' => 'ASC'],
         ]);
 
         // Null values should be handled gracefully
@@ -248,7 +248,7 @@ class IngredientResolverTest extends TestCase
         $ingredientMixed = Ingredient::factory()->create(['name' => 'aPPle']);
 
         $result = $this->resolver->ingredients(null, [
-            'orderBy' => ['column' => 'name', 'order' => 'ASC']
+            'orderBy' => ['column' => 'name', 'order' => 'ASC'],
         ]);
 
         $this->assertCount(3, $result['data']);
@@ -262,7 +262,7 @@ class IngredientResolverTest extends TestCase
         $ingredientAccent = Ingredient::factory()->create(['name' => 'Café au lait']);
 
         $result = $this->resolver->ingredients(null, [
-            'orderBy' => ['column' => 'name', 'order' => 'ASC']
+            'orderBy' => ['column' => 'name', 'order' => 'ASC'],
         ]);
 
         $this->assertCount(3, $result['data']);

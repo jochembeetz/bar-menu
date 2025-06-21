@@ -16,7 +16,7 @@ class CategoryFiltersTest extends TestCase
             'sortBy' => 'name',
             'sortOrder' => 'desc',
             'limit' => 25,
-            'page' => 3
+            'page' => 3,
         ]);
 
         $this->assertInstanceOf(SortingOptions::class, $filters->sorting);
@@ -31,7 +31,7 @@ class CategoryFiltersTest extends TestCase
     {
         $filters = CategoryFilters::sortingOnly([
             'sortBy' => 'created_at',
-            'sortOrder' => 'asc'
+            'sortOrder' => 'asc',
         ]);
 
         $this->assertInstanceOf(SortingOptions::class, $filters->sorting);
@@ -45,10 +45,10 @@ class CategoryFiltersTest extends TestCase
         $filters = CategoryFilters::fromGraphQLArgs([
             'orderBy' => [
                 'column' => 'price',
-                'order' => 'desc'
+                'order' => 'desc',
             ],
             'first' => 50,
-            'page' => 2
+            'page' => 2,
         ]);
 
         $this->assertInstanceOf(SortingOptions::class, $filters->sorting);
@@ -64,8 +64,8 @@ class CategoryFiltersTest extends TestCase
         $filters = CategoryFilters::fromGraphQLArgsSortingOnly([
             'orderBy' => [
                 'column' => 'name',
-                'order' => 'asc'
-            ]
+                'order' => 'asc',
+            ],
         ]);
 
         $this->assertInstanceOf(SortingOptions::class, $filters->sorting);
@@ -109,7 +109,7 @@ class CategoryFiltersTest extends TestCase
             'sortBy' => 'name',
             'sortOrder' => 'desc',
             'limit' => 25,
-            'page' => 3
+            'page' => 3,
         ]);
 
         $array = $filters->toArray();
@@ -118,7 +118,7 @@ class CategoryFiltersTest extends TestCase
             'sortBy' => 'name',
             'sortOrder' => 'desc',
             'limit' => 25,
-            'page' => 3
+            'page' => 3,
         ], $array);
     }
 
@@ -126,14 +126,14 @@ class CategoryFiltersTest extends TestCase
     {
         $filters = CategoryFilters::sortingOnly([
             'sortBy' => 'created_at',
-            'sortOrder' => 'asc'
+            'sortOrder' => 'asc',
         ]);
 
         $array = $filters->toArray();
 
         $this->assertEquals([
             'sortBy' => 'created_at',
-            'sortOrder' => 'asc'
+            'sortOrder' => 'asc',
         ], $array);
     }
 }

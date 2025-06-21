@@ -40,7 +40,7 @@ class SortingOptions
      */
     private function validate(): void
     {
-        if (!in_array(Str::lower($this->sortOrder), ['asc', 'desc'])) {
+        if (! in_array(Str::lower($this->sortOrder), ['asc', 'desc'])) {
             throw new \InvalidArgumentException('Sort order must be "asc" or "desc"');
         }
     }

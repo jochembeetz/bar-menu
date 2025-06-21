@@ -4,8 +4,8 @@ namespace Tests\Unit\Actions\Categories;
 
 use App\Actions\Categories\GetCategoryProductsArrayAction;
 use App\Models\Category;
-use App\Models\Product;
 use App\Models\Ingredient;
+use App\Models\Product;
 use App\ValueObjects\CategoryFilters;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
@@ -19,7 +19,7 @@ class GetCategoryProductsArrayActionTest extends TestCase
     protected function setUp(): void
     {
         parent::setUp();
-        $this->action = new GetCategoryProductsArrayAction();
+        $this->action = new GetCategoryProductsArrayAction;
     }
 
     public function test_gets_category_products_as_array_with_sorting()
@@ -32,7 +32,7 @@ class GetCategoryProductsArrayActionTest extends TestCase
 
         $filters = CategoryFilters::sortingOnly([
             'sortBy' => 'sort_order',
-            'sortOrder' => 'asc'
+            'sortOrder' => 'asc',
         ]);
 
         $result = ($this->action)($category, $filters);
@@ -55,7 +55,7 @@ class GetCategoryProductsArrayActionTest extends TestCase
 
         $filters = CategoryFilters::sortingOnly([
             'sortBy' => 'name',
-            'sortOrder' => 'asc'
+            'sortOrder' => 'asc',
         ]);
 
         $result = ($this->action)($category, $filters);
@@ -75,7 +75,7 @@ class GetCategoryProductsArrayActionTest extends TestCase
 
         $filters = CategoryFilters::sortingOnly([
             'sortBy' => 'sort_order',
-            'sortOrder' => 'desc'
+            'sortOrder' => 'desc',
         ]);
 
         $result = ($this->action)($category, $filters);

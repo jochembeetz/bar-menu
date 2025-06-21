@@ -17,7 +17,7 @@ class ListCategoriesActionTest extends TestCase
     protected function setUp(): void
     {
         parent::setUp();
-        $this->action = new ListCategoriesAction();
+        $this->action = new ListCategoriesAction;
     }
 
     public function test_lists_categories_with_pagination_and_sorting()
@@ -31,7 +31,7 @@ class ListCategoriesActionTest extends TestCase
             'sortBy' => 'sort_order',
             'sortOrder' => 'asc',
             'limit' => 2,
-            'page' => 1
+            'page' => 1,
         ]);
 
         $result = ($this->action)($filters);
@@ -56,7 +56,7 @@ class ListCategoriesActionTest extends TestCase
             'sortBy' => 'name',
             'sortOrder' => 'asc',
             'limit' => 10,
-            'page' => 1
+            'page' => 1,
         ]);
 
         $result = ($this->action)($filters);
@@ -75,7 +75,7 @@ class ListCategoriesActionTest extends TestCase
             'sortBy' => 'sort_order',
             'sortOrder' => 'desc',
             'limit' => 10,
-            'page' => 1
+            'page' => 1,
         ]);
 
         $result = ($this->action)($filters);
@@ -89,7 +89,7 @@ class ListCategoriesActionTest extends TestCase
     {
         $filters = CategoryFilters::withPagination([
             'limit' => 10,
-            'page' => 1
+            'page' => 1,
         ]);
 
         $result = ($this->action)($filters);
@@ -104,7 +104,7 @@ class ListCategoriesActionTest extends TestCase
 
         $filters = CategoryFilters::withPagination([
             'limit' => 3,
-            'page' => 2
+            'page' => 2,
         ]);
 
         $result = ($this->action)($filters);

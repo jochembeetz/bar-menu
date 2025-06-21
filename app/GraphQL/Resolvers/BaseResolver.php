@@ -6,8 +6,8 @@ use App\GraphQL\Resources\PaginatedResponse;
 use App\Validators\PaginationValidator;
 use App\Validators\SortingValidator;
 use GraphQL\Error\Error;
-use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
+use Illuminate\Database\Eloquent\Builder;
 
 abstract class BaseResolver
 {
@@ -62,6 +62,7 @@ abstract class BaseResolver
     {
         $sortingParams = SortingValidator::fromGraphQLArgs($args);
         $relationship->orderBy($sortingParams['column'], $sortingParams['order']);
+
         return $relationship->get()->all();
     }
 
@@ -82,7 +83,7 @@ abstract class BaseResolver
         $page = $args['page'] ?? null;
 
         if ($first !== null) {
-            if (!is_numeric($first) || (int) $first < 1) {
+            if (! is_numeric($first) || (int) $first < 1) {
                 throw new Error('The first field must be at least 1.');
             }
             if ((int) $first > 100) {
@@ -91,7 +92,7 @@ abstract class BaseResolver
         }
 
         if ($page !== null) {
-            if (!is_numeric($page) || (int) $page < 1) {
+            if (! is_numeric($page) || (int) $page < 1) {
                 throw new Error('The page field must be at least 1.');
             }
         }

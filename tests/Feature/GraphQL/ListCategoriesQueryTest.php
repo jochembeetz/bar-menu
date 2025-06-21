@@ -10,8 +10,8 @@ use Tests\TestCase;
 
 class ListCategoriesQueryTest extends TestCase
 {
-    use RefreshDatabase;
     use MakesGraphQLRequests;
+    use RefreshDatabase;
     use RefreshesSchemaCache;
 
     public function test_it_returns_categories_with_default_pagination(): void

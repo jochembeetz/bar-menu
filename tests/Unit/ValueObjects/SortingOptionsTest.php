@@ -28,7 +28,7 @@ class SortingOptionsTest extends TestCase
     {
         $sorting = SortingOptions::fromArray([
             'sortBy' => 'created_at',
-            'sortOrder' => 'desc'
+            'sortOrder' => 'desc',
         ]);
 
         $this->assertEquals('created_at', $sorting->sortBy);
@@ -46,7 +46,7 @@ class SortingOptionsTest extends TestCase
     public function test_from_array_with_partial_parameters()
     {
         $sorting = SortingOptions::fromArray([
-            'sortBy' => 'name'
+            'sortBy' => 'name',
         ]);
 
         $this->assertEquals('name', $sorting->sortBy);
@@ -58,8 +58,8 @@ class SortingOptionsTest extends TestCase
         $sorting = SortingOptions::fromGraphQLArgs([
             'orderBy' => [
                 'column' => 'price_in_cents',
-                'order' => 'DESC'
-            ]
+                'order' => 'DESC',
+            ],
         ]);
 
         $this->assertEquals('price_in_cents', $sorting->sortBy);
@@ -78,8 +78,8 @@ class SortingOptionsTest extends TestCase
     {
         $sorting = SortingOptions::fromGraphQLArgs([
             'orderBy' => [
-                'column' => 'name'
-            ]
+                'column' => 'name',
+            ],
         ]);
 
         $this->assertEquals('name', $sorting->sortBy);
@@ -89,7 +89,7 @@ class SortingOptionsTest extends TestCase
     public function test_from_graphql_args_with_empty_order_by()
     {
         $sorting = SortingOptions::fromGraphQLArgs([
-            'orderBy' => []
+            'orderBy' => [],
         ]);
 
         $this->assertEquals('sort_order', $sorting->sortBy);

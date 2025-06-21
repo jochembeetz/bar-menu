@@ -17,7 +17,7 @@ class IngredientTypeTest extends TestCase
     protected function setUp(): void
     {
         parent::setUp();
-        $this->ingredientType = new IngredientType();
+        $this->ingredientType = new IngredientType;
     }
 
     public function test_it_returns_pivot_type_for_ingredient_with_pivot(): void

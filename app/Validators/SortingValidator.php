@@ -13,7 +13,7 @@ class SortingValidator
         $sortFields = array_merge($defaultSortFields, $allowedSortFields);
 
         return [
-            'sortBy' => 'nullable|string|in:' . implode(',', $sortFields),
+            'sortBy' => 'nullable|string|in:'.implode(',', $sortFields),
             'sortOrder' => 'nullable|string|in:asc,desc',
         ];
     }
@@ -27,7 +27,7 @@ class SortingValidator
         $sortFields = array_merge($defaultSortFields, $allowedSortFields);
 
         return [
-            'sortBy.in' => 'The sortBy field must be one of the following: ' . implode(', ', $sortFields) . '.',
+            'sortBy.in' => 'The sortBy field must be one of the following: '.implode(', ', $sortFields).'.',
             'sortOrder.in' => 'The sortOrder field must be one of the following: asc, desc.',
         ];
     }

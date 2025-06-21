@@ -10,8 +10,8 @@ use Tests\TestCase;
 
 class ListCategoriesPaginationTest extends TestCase
 {
-    use RefreshDatabase;
     use MakesGraphQLRequests;
+    use RefreshDatabase;
     use RefreshesSchemaCache;
 
     public function test_it_returns_categories_with_default_pagination(): void
@@ -73,7 +73,6 @@ class ListCategoriesPaginationTest extends TestCase
 
         $apiResponse = $this->getJson('api/v1/categories');
 
-
         $this->assertEquals($graphqlResponse->json('data.categories.paginatorInfo.perPage'), $apiResponse->json('meta.per_page'));
         $this->assertEquals($graphqlResponse->json('data.categories.paginatorInfo.total'), $apiResponse->json('meta.total'));
         $this->assertEquals($graphqlResponse->json('data.categories.paginatorInfo.currentPage'), $apiResponse->json('meta.current_page'));
@@ -81,7 +80,7 @@ class ListCategoriesPaginationTest extends TestCase
 
     public function test_it_validates_the_same_max_pagination_size_for_graphql_and_api(): void
     {
-      $graphqlResponse = $this->graphQL(/** @lang GraphQL */ '
+        $graphqlResponse = $this->graphQL(/** @lang GraphQL */ '
             query {
                 categories(first: 101) {
                     data {
