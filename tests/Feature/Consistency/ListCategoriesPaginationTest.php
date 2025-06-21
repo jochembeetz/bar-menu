@@ -95,9 +95,8 @@ class ListCategoriesPaginationTest extends TestCase
         ');
 
         $apiResponse = $this->getJson('api/v1/categories?limit=101');
-
-        $this->assertEquals($graphqlResponse->json('errors.0.message'), 'Maximum number of 100 requested items exceeded, got 101. Fetch smaller chunks.');
+        // dd($graphqlResponse->json());
         $this->assertEquals($apiResponse->assertStatus(422)->json('errors.limit.0'), 'The limit field must be less than 100.');
+        $this->assertEquals($graphqlResponse->json('errors.0.message'), 'The first field must be less than 100.');
     }
-
 }

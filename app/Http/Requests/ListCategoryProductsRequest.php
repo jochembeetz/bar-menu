@@ -2,31 +2,26 @@
 
 namespace App\Http\Requests;
 
+use App\Validators\PaginationValidator;
+use App\Validators\SortingValidator;
 use Illuminate\Foundation\Http\FormRequest;
 
 class ListCategoryProductsRequest extends FormRequest
 {
     public function rules(): array
     {
-        return [
-            'sortBy' => 'nullable|string|in:sort_order,slug,created_at,name,price_in_cents',
-            'sortOrder' => 'nullable|string|in:asc,desc',
-            'limit' => 'nullable|integer|min:1|max:100',
-            'page' => 'nullable|integer|min:1',
-        ];
+        return array_merge(
+            PaginationValidator::rules(),
+            SortingValidator::rules(['price_in_cents'])
+        );
     }
 
     public function messages(): array
     {
-        return [
-            'sortBy.in' => 'The sortBy field must be one of the following: sort_order, slug, created_at, name, price_in_cents.',
-            'sortOrder.in' => 'The sortOrder field must be one of the following: asc, desc.',
-            'limit.integer' => 'The limit field must be an integer.',
-            'limit.min' => 'The limit field must be at least 1.',
-            'limit.max' => 'The limit field must be less than 100.',
-            'page.integer' => 'The page field must be an integer.',
-            'page.min' => 'The page field must be at least 1.',
-        ];
+        return array_merge(
+            PaginationValidator::messages(),
+            SortingValidator::messages(['price_in_cents'])
+        );
     }
 
     public function sortBy(): string
@@ -47,5 +42,13 @@ class ListCategoryProductsRequest extends FormRequest
     public function page(): int
     {
         return $this->validated('page', 1);
+    }
+
+    /**
+     * Get normalized pagination parameters.
+     */
+    public function getPaginationParams(): array
+    {
+        return PaginationValidator::normalize($this->validated());
     }
 }

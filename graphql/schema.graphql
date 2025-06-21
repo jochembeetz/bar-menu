@@ -14,21 +14,47 @@ type Query {
 
     "List multiple categories."
     categories(
+      "Number of items to return."
+      first: Int
+      "Page number."
+      page: Int
       "Order by a specific column."
-      orderBy: _ @orderBy(columns: ["sort_order", "slug", "created_at"])
-    ): [Category!]! @paginate(defaultCount: 10, maxCount: 100) @orderBy(column: "sort_order")
+      orderBy: OrderByInput
+    ): CategoryConnection! @field(resolver: "App\\GraphQL\\Resolvers\\CategoryResolver@categories")
 
     "List multiple products."
     products(
+      "Number of items to return."
+      first: Int
+      "Page number."
+      page: Int
       "Order by a specific column."
-      orderBy: _ @orderBy(columns: ["sort_order", "slug", "created_at", "price_in_cents"])
-    ): [Product!]! @paginate(defaultCount: 10, maxCount: 100) @orderBy(column: "sort_order")
+      orderBy: OrderByInput
+    ): ProductConnection! @field(resolver: "App\\GraphQL\\Resolvers\\ProductResolver@products")
 
     "List multiple ingredients."
     ingredients(
+      "Number of items to return."
+      first: Int
+      "Page number."
+      page: Int
       "Order by a specific column."
-      orderBy: _ @orderBy(columns: ["name", "slug", "created_at"])
-    ): [Ingredient!]! @paginate(defaultCount: 10, maxCount: 100) @orderBy(column: "name")
+      orderBy: OrderByInput
+    ): IngredientConnection! @field(resolver: "App\\GraphQL\\Resolvers\\IngredientResolver@ingredients")
+}
+
+"Input for ordering results."
+input OrderByInput {
+    "Column to order by."
+    column: String!
+    "Order direction."
+    order: OrderDirection!
+}
+
+"Order direction."
+enum OrderDirection {
+    ASC
+    DESC
 }
 
 "Category of items in the menu."
@@ -46,7 +72,10 @@ type Category {
     description: String
 
     "Products in this category."
-    products: [Product!]! @belongsToMany
+    products(
+      "Order by a specific column."
+      orderBy: OrderByInput
+    ): [Product!]! @field(resolver: "App\\GraphQL\\Resolvers\\CategoryResolver@categoryProducts")
 }
 
 "Product in the menu."
@@ -95,4 +124,48 @@ type Ingredient {
 
     "Products that use this ingredient."
     products: [Product!]! @belongsToMany
+}
+
+"Connection for categories with pagination."
+type CategoryConnection {
+    "List of categories."
+    data: [Category!]!
+    "Pagination information."
+    paginatorInfo: PaginatorInfo!
+}
+
+"Connection for products with pagination."
+type ProductConnection {
+    "List of products."
+    data: [Product!]!
+    "Pagination information."
+    paginatorInfo: PaginatorInfo!
+}
+
+"Connection for ingredients with pagination."
+type IngredientConnection {
+    "List of ingredients."
+    data: [Ingredient!]!
+    "Pagination information."
+    paginatorInfo: PaginatorInfo!
+}
+
+"Pagination information."
+type PaginatorInfo {
+    "Number of items on current page."
+    count: Int!
+    "Current page."
+    currentPage: Int!
+    "First item number on current page."
+    firstItem: Int
+    "Has next page."
+    hasMorePages: Boolean!
+    "Last item number on current page."
+    lastItem: Int
+    "Last page."
+    lastPage: Int!
+    "Items per page."
+    perPage: Int!
+    "Total items."
+    total: Int!
 }

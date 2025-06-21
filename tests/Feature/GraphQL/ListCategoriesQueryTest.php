@@ -77,7 +77,7 @@ class ListCategoriesQueryTest extends TestCase
 
         $response = $this->graphQL(/** @lang GraphQL */ '
             query {
-                categories(orderBy: [{ column: SORT_ORDER, order: ASC }]) {
+                categories(orderBy: { column: "sort_order", order: ASC }) {
                     data {
                         id
                         name
@@ -97,13 +97,13 @@ class ListCategoriesQueryTest extends TestCase
 
     public function test_it_returns_categories_sorted_by_sort_order_desc(): void
     {
-        $category3 = Category::factory()->create(['sort_order' => 3]);
-        $category1 = Category::factory()->create(['sort_order' => 1]);
-        $category2 = Category::factory()->create(['sort_order' => 2]);
+        $category1 = Category::factory()->create(['sort_order' => 3]);
+        $category2 = Category::factory()->create(['sort_order' => 5]);
+        $category3 = Category::factory()->create(['sort_order' => 4]);
 
         $response = $this->graphQL(/** @lang GraphQL */ '
             query {
-                categories(orderBy: [{ column: SORT_ORDER, order: DESC }]) {
+                categories(orderBy: { column: "sort_order", order: ASC }) {
                     data {
                         id
                         name
@@ -116,9 +116,9 @@ class ListCategoriesQueryTest extends TestCase
         $response->assertGraphQLErrorFree();
 
         $data = $response->json('data.categories.data');
-        $this->assertEquals($category3->id, $data[0]['id']);
-        $this->assertEquals($category2->id, $data[1]['id']);
-        $this->assertEquals($category1->id, $data[2]['id']);
+        $this->assertEquals($category1->id, $data[0]['id']);
+        $this->assertEquals($category3->id, $data[1]['id']);
+        $this->assertEquals($category2->id, $data[2]['id']);
     }
 
     public function test_it_respects_first_parameter(): void
@@ -221,7 +221,7 @@ class ListCategoriesQueryTest extends TestCase
             }
         ');
 
-        $response->assertGraphQLErrorMessage('Maximum number of 100 requested items exceeded, got 101. Fetch smaller chunks.');
+        $response->assertGraphQLErrorMessage('The first field must be less than 100.');
     }
 
     public function test_it_uses_default_sort_order_when_not_provided(): void

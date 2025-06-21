@@ -1,27 +1,23 @@
-# Get all categories
-query GetCategories {
-  categories {
+query GetCategoriesOrderedAndPaginated {
+  categories(
+    first: 2,
+    page: 2,
+    orderBy: { column: "sort_order", order: ASC }
+  ) {
     data {
       id
       name
       slug
-      description
-      sort_order
-      created_at
+      products(orderBy: { column: "name", order: ASC }) {
+        id
+        name
+        price_in_cents
+      }
     }
-  }
-}
-
-# Get all categories
-query GetCategoriesOrdered {
-  categories(orderBy: [{ column: SORT_ORDER, order: DESC }]) {
-    data {
-      id
-      name
-      slug
-      description
-      sort_order
-      created_at
+    paginatorInfo {
+      currentPage
+      total
+      hasMorePages
     }
   }
 }
