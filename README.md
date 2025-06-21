@@ -1,61 +1,285 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# Bar Menu
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+A modern bar menu management system built with Laravel and GraphQL, featuring a comprehensive API for managing products, categories, and ingredients.
 
-## About Laravel
+## 🍹 Features
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+- **GraphQL API** - Modern, type-safe API using Lighthouse GraphQL
+- **Product Reads** - Read operations for menu items
+- **Category Organization** - Hierarchical menu categorization
+- **Ingredient Tracking** - Detailed ingredient management with types (base, optional, add-on)
+- **Pagination** - Efficient data loading with cursor-based pagination
+- **Soft Deletes** - Safe data management with soft delete functionality
+- **Testing** - Comprehensive test suite with PHPUnit
+- **Docker Support** - Containerized development environment with Laravel Sail
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+## 🛠 Tech Stack
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+- **Backend**: Laravel 12.x (PHP 8.2+)
+- **API**: Regular Laravel
+- **GraphQL**: GraphQL with Lighthouse
+- **Database**: MySQL 8.0
+- **Frontend**: Vite + Tailwind CSS
+- **Testing**: PHPUnit
+- **Code Quality**: Laravel Pint, PHPStan (Larastan)
+- **Documentation**: L5-Swagger
+- **Containerization**: Docker + Laravel Sail
 
-## Learning Laravel
+## 📋 Prerequisites
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+- PHP 8.2 or higher
+- Composer
+- Node.js 18+ and npm
+- MySQL 8.0 or Docker
+- Git
 
-You may also try the [Laravel Bootcamp](https://bootcamp.laravel.com), where you will be guided through building a modern Laravel application from scratch.
+## 🚀 Quick Start
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+### Option 1: Local Development
 
-## Laravel Sponsors
+1. **Clone the repository**
+   ```bash
+   git clone <repository-url>
+   cd bar-menu
+   ```
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+2. **Install PHP dependencies**
+   ```bash
+   composer install
+   ```
 
-### Premium Partners
+3. **Install Node.js dependencies**
+   ```bash
+   npm install
+   ```
 
-- **[Vehikl](https://vehikl.com)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Redberry](https://redberry.international/laravel-development)**
-- **[Active Logic](https://activelogic.com)**
+4. **Environment setup**
+   ```bash
+   cp .env.example .env
+   php artisan key:generate
+   ```
 
-## Contributing
+5. **Configure database or stay on SQLite**
+   Update your `.env` file with your database credentials or do nothing:
+   ```env
+   DB_CONNECTION=mysql
+   DB_HOST=127.0.0.1
+   DB_PORT=3306
+   DB_DATABASE=bar_menu
+   DB_USERNAME=your_username
+   DB_PASSWORD=your_password
+   ```
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+6. **Run migrations and seeders**
+   ```bash
+   php artisan migrate
+   php artisan db:seed
+   ```
 
-## Code of Conduct
+7. **Start the development server**
+   ```bash
+   # Start all services (Laravel, Vite, Queue, Logs)
+   composer run dev
+   
+   # Or start just the API server
+   composer run dev:api
+   ```
+8. **Access the application**
+   - Application: http://localhost
+   - GraphiQL: http://localhost/graphiql
+   - Swagger: http://localhost/api/documentation
+   - Database: localhost:3306
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+### Option 2: Docker Development
 
-## Security Vulnerabilities
+1. **Clone and setup environment**
+   ```bash
+   git clone <repository-url>
+   cd bar-menu
+   cp env.docker
+   ```
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+2. **Start Docker containers**
+   ```bash
+   composer run dev:docker
+   ```
 
-## License
+3. **Install dependencies and setup database**
+   ```bash
+   ./vendor/bin/sail composer install
+   ./vendor/bin/sail npm install
+   ./vendor/bin/sail artisan migrate
+   ./vendor/bin/sail artisan db:seed
+   ```
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+4. **Access the application**
+   - Application: http://localhost
+   - GraphiQL: http://localhost/graphiql
+   - Swagger: http://localhost/api/documentation
+   - Database: localhost:3306
+
+## 📚 API Documentation
+
+### GraphQL Endpoint
+- **URL**: `/graphql`
+- **Playground**: `/graphiql`
+
+### Key Queries
+
+#### List Categories
+```graphql
+query {
+  categories(first: 10, page: 1) {
+    data {
+      id
+      name
+      slug
+      description
+    }
+    paginatorInfo {
+      currentPage
+      lastPage
+      total
+    }
+  }
+}
+```
+
+#### List Products
+```graphql
+query {
+  products(first: 10, page: 1) {
+    data {
+      id
+      name
+      slug
+      description
+      price_in_cents
+      categories {
+        id
+        name
+      }
+      ingredients {
+        id
+        name
+        type
+      }
+    }
+    paginatorInfo {
+      currentPage
+      lastPage
+      total
+    }
+  }
+}
+```
+
+#### List Ingredients
+```graphql
+query {
+  ingredients(first: 10, page: 1) {
+    data {
+      id
+      name
+      slug
+      description
+      type
+    }
+    paginatorInfo {
+      currentPage
+      lastPage
+      total
+    }
+  }
+}
+```
+
+#### Check examples in example.graphql
+
+## 🗄 Database Schema
+
+### Core Tables
+
+- **categories** - Menu categories with sort order
+- **products** - Menu items with pricing
+- **ingredients** - Product ingredients
+- **category_product** - Many-to-many relationship between categories and products
+- **ingredient_product** - Many-to-many relationship between products and ingredients with type classification
+
+### Relationships
+
+- Categories ↔ Products (Many-to-Many with sort_order)
+- Products ↔ Ingredients (Many-to-Many with type: base, optional, add-on)
+
+## 🧪 Testing
+
+### Run all tests
+
+```bash
+composer test
+```
+
+### Run specific test suites
+
+```bash
+# Feature tests
+php artisan test --testsuite=Feature
+
+# GraphQL tests
+php artisan test tests/Feature/GraphQL/
+
+# Consistency tests
+php artisan test tests/Feature/Consistency/
+```
+
+### Code quality checks
+
+```bash
+composer run lint
+```
+
+## 📦 Available Scripts
+
+### Development
+
+- `composer dev` - Start all development services
+- `composer dev:api` - Start API server only
+- `composer dev:docker` - Start Docker environment
+
+### Code Quality
+
+- `composer lint` - Run Pint and PHPStan
+- `composer test` - Run PHPUnit tests
+
+### Documentation
+
+- `composer run swagger` - Generate API documentation
+
+## 🔧 Configuration
+
+### GraphQL Configuration
+
+- Schema: `graphql/schema.graphql`
+- Resolvers: `app/GraphQL/Resolvers/`
+- Types: `app/GraphQL/Types/`
+
+## 🏗 Project Structure
+
+```
+bar-menu/
+├── app/
+│   ├── GraphQL/          # GraphQL resolvers and types
+│   ├── Models/           # Eloquent models
+│   ├── Services/         # Business logic services
+│   └── Http/             # Controllers and middleware
+├── database/
+│   ├── migrations/       # Database migrations
+│   └── seeders/          # Database seeders
+├── graphql/
+│   └── schema.graphql    # GraphQL schema definition
+├── tests/
+│   ├── Feature/          # Feature tests
+│   └── Unit/             # Unit tests
+├── resources/            # Frontend assets
+└── routes/               # Route definitions
+```
