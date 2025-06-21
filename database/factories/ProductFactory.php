@@ -3,6 +3,8 @@
 namespace Database\Factories;
 
 use App\Models\Product;
+use App\Models\Ingredient;
+use App\Models\Category;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Str;
 
@@ -26,6 +28,45 @@ class ProductFactory extends Factory
             'description' => fake()->sentence(),
             'price_in_cents' => fake()->numberBetween(500, 2500), // $5.00 to $25.00
         ];
+    }
+
+    /**
+     * Create a product with ingredients attached
+     */
+    public function withIngredients(int $count = 1, array $ingredientAttributes = [], array $pivotAttributes = []): static
+    {
+        return $this->afterCreating(function (Product $product) use ($count, $ingredientAttributes, $pivotAttributes) {
+            $ingredients = Ingredient::factory()->count($count)->create($ingredientAttributes);
+
+            foreach ($ingredients as $index => $ingredient) {
+                $product->ingredients()->attach($ingredient->id, [
+                    'type' => $pivotAttributes['type'] ?? 'base'
+                ]);
+            }
+        });
+    }
+
+    /**
+     * Create a product with specific ingredients
+     */
+    public function withSpecificIngredients(array $ingredients): static
+    {
+        return $this->afterCreating(function (Product $product) use ($ingredients) {
+            foreach ($ingredients as $ingredientData) {
+                $ingredient = Ingredient::factory()->create($ingredientData['attributes'] ?? []);
+                $product->ingredients()->attach($ingredient->id, [
+                    'type' => $ingredientData['pivot']['type'] ?? 'base'
+                ]);
+            }
+        });
+    }
+
+    public function withCategories(int $count = 1, array $categoryAttributes = []): static
+    {
+        return $this->afterCreating(function (Product $product) use ($count, $categoryAttributes) {
+            $categories = Category::factory()->count($count)->create($categoryAttributes);
+            $product->categories()->attach($categories->pluck('id'));
+        });
     }
 
     /**

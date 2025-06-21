@@ -17,6 +17,18 @@ type Query {
       "Order by a specific column."
       orderBy: _ @orderBy(columns: ["sort_order", "slug", "created_at"])
     ): [Category!]! @paginate(defaultCount: 10, maxCount: 100) @orderBy(column: "sort_order")
+
+    "List multiple products."
+    products(
+      "Order by a specific column."
+      orderBy: _ @orderBy(columns: ["sort_order", "slug", "created_at", "price_in_cents"])
+    ): [Product!]! @paginate(defaultCount: 10, maxCount: 100) @orderBy(column: "sort_order")
+
+    "List multiple ingredients."
+    ingredients(
+      "Order by a specific column."
+      orderBy: _ @orderBy(columns: ["name", "slug", "created_at"])
+    ): [Ingredient!]! @paginate(defaultCount: 10, maxCount: 100) @orderBy(column: "name")
 }
 
 "Category of items in the menu."
@@ -32,4 +44,55 @@ type Category {
 
     "Category description."
     description: String
+
+    "Products in this category."
+    products: [Product!]! @belongsToMany
+}
+
+"Product in the menu."
+type Product {
+    "Unique primary key."
+    id: ID!
+
+    "Product name."
+    name: String!
+
+    "URL-friendly slug."
+    slug: String!
+
+    "Product description."
+    description: String
+
+    "Price in cents."
+    price_in_cents: Int!
+
+    "Sort order for display."
+    sort_order: Int
+
+    "Categories this product belongs to."
+    categories: [Category!]! @belongsToMany
+
+    "Ingredients in this product."
+    ingredients: [Ingredient!]! @belongsToMany
+}
+
+"Ingredient used in products."
+type Ingredient {
+    "Unique primary key."
+    id: ID!
+
+    "Ingredient name."
+    name: String!
+
+    "URL-friendly slug."
+    slug: String!
+
+    "Ingredient description."
+    description: String
+
+    "Ingredient type from pivot table."
+    type: String! @field(resolver: "App\\GraphQL\\Types\\IngredientType")
+
+    "Products that use this ingredient."
+    products: [Product!]! @belongsToMany
 }

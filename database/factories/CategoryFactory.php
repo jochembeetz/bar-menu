@@ -3,6 +3,7 @@
 namespace Database\Factories;
 
 use App\Models\Category;
+use App\Models\Product;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Str;
 
@@ -24,8 +25,39 @@ class CategoryFactory extends Factory
             'name' => $name,
             'slug' => Str::slug($name),
             'description' => fake()->sentence(),
-            'sort_order' => fake()->numberBetween(1, 1000),
+            'sort_order' => fake()->numberBetween(1),
         ];
+    }
+
+    /**
+     * Create a category with products attached
+     */
+    public function withProducts(int $count = 1, array $productAttributes = []): static
+    {
+        return $this->afterCreating(function (Category $category) use ($count, $productAttributes) {
+            $products = Product::factory()->count($count)->create($productAttributes);
+
+            foreach ($products as $index => $product) {
+                $category->products()->attach($product->id, [
+                    'sort_order' => $productAttributes['sort_order'] ?? ($index + 1)
+                ]);
+            }
+        });
+    }
+
+    /**
+     * Create a category with specific products
+     */
+    public function withSpecificProducts(array $products): static
+    {
+        return $this->afterCreating(function (Category $category) use ($products) {
+            foreach ($products as $productData) {
+                $product = Product::factory()->create($productData['attributes'] ?? []);
+                $category->products()->attach($product->id, [
+                    'sort_order' => $productData['sort_order'] ?? 1
+                ]);
+            }
+        });
     }
 
     /**
