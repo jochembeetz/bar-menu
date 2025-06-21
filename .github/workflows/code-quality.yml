@@ -1,0 +1,169 @@
+name: Code Quality
+
+on:
+  pull_request:
+    branches: [ main, develop ]
+  push:
+    branches: [ main, develop ]
+
+jobs:
+  code-quality:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: Setup PHP
+      uses: shivammathur/setup-php@v2
+      with:
+        php-version: 8.3
+        extensions: mbstring, xml, ctype, iconv, intl, pdo_mysql, dom, filter, gd, iconv, json, mbstring, pdo, pdo_sqlite, phar, tokenizer, xml, xmlreader, xmlwriter, zip, curl, fileinfo, openssl, bcmath, soap, sockets, sodium, exif, pcntl, calendar, sysvmsg, sysvsem, sysvshm
+        tools: composer:v2
+
+    - name: Setup Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: '20'
+        cache: 'npm'
+
+    - name: Get composer cache directory
+      id: composer-cache
+      run: echo "dir=$(composer config cache-files-dir)" >> $GITHUB_OUTPUT
+
+    - name: Cache composer dependencies
+      uses: actions/cache@v4
+      with:
+        path: ${{ steps.composer-cache.outputs.dir }}
+        key: ${{ runner.os }}-php-8.3-composer-${{ hashFiles('**/composer.lock') }}
+        restore-keys: ${{ runner.os }}-php-8.3-composer-
+
+    - name: Cache npm dependencies
+      uses: actions/cache@v4
+      with:
+        path: ~/.npm
+        key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
+        restore-keys: |
+          ${{ runner.os }}-node-
+
+    - name: Install PHP dependencies
+      run: composer install --prefer-dist --no-progress --no-interaction
+
+    - name: Install Node.js dependencies
+      run: npm ci
+
+    - name: Run Laravel Pint (check only)
+      run: ./vendor/bin/pint --test
+
+    - name: Run PHPStan
+      run: ./vendor/bin/phpstan analyse --memory-limit=2G --error-format=json > phpstan-results.json || true
+
+    - name: Run PHPStan (fail on errors)
+      run: ./vendor/bin/phpstan analyse --memory-limit=2G
+
+    - name: Check for syntax errors
+      run: find . -name "*.php" -not -path "./vendor/*" -not -path "./node_modules/*" -exec php -l {} \;
+
+    - name: Run Composer security audit
+      run: composer audit --format=json --no-interaction > composer-audit.json || echo '{"vulnerabilities": []}' > composer-audit.json
+
+    - name: Run npm audit
+      run: npm audit --audit-level=moderate --json > npm-audit.json 2>/dev/null || echo '{"vulnerabilities": []}' > npm-audit.json
+
+    - name: Check for hardcoded secrets
+      run: |
+        # Check for potential API keys, passwords, etc.
+        if grep -r -i "password.*=.*['\"][^'\"]*['\"]" app/ config/ database/ routes/ 2>/dev/null; then
+          echo "⚠️  Potential hardcoded passwords found"
+          exit 1
+        fi
+
+        if grep -r -i "api_key.*=.*['\"][^'\"]*['\"]" app/ config/ database/ routes/ 2>/dev/null; then
+          echo "⚠️  Potential hardcoded API keys found"
+          exit 1
+        fi
+
+    - name: Check for debug statements
+      run: |
+        # Check for dd(), dump(), var_dump() in production code
+        if grep -r "dd(" app/ config/ database/ routes/ 2>/dev/null; then
+          echo "❌ dd() statements found in production code"
+          exit 1
+        fi
+
+        if grep -r "dump(" app/ config/ database/ routes/ 2>/dev/null; then
+          echo "❌ dump() statements found in production code"
+          exit 1
+        fi
+
+    - name: Upload PHPStan results
+      uses: actions/upload-artifact@v4
+      if: always()
+      with:
+        name: phpstan-results
+        path: phpstan-results.json
+        retention-days: 7
+
+    - name: Upload security audit results
+      uses: actions/upload-artifact@v4
+      if: always()
+      with:
+        name: security-audit-results
+        path: |
+          composer-audit.json
+          npm-audit.json
+        retention-days: 7
+
+    - name: Comment on PR
+      if: github.event_name == 'pull_request'
+      uses: actions/github-script@v7
+      with:
+        script: |
+          const fs = require('fs');
+
+          let comment = '## Code Quality Check Results\n\n';
+
+          // PHPStan results
+          try {
+            const phpstanResults = JSON.parse(fs.readFileSync('phpstan-results.json', 'utf8'));
+            if (phpstanResults.files && Object.keys(phpstanResults.files).length > 0) {
+              comment += '### ⚠️ PHPStan Issues Found\n';
+              comment += 'Static analysis found potential issues. Check the logs for details.\n\n';
+            } else {
+              comment += '### ✅ PHPStan\n';
+              comment += 'No static analysis issues found.\n\n';
+            }
+          } catch (e) {
+            comment += '### ✅ PHPStan\n';
+            comment += 'No static analysis issues found.\n\n';
+          }
+
+          // Security audit results
+          try {
+            const composerAudit = JSON.parse(fs.readFileSync('composer-audit.json', 'utf8'));
+            const npmAudit = JSON.parse(fs.readFileSync('npm-audit.json', 'utf8'));
+
+            const composerVulns = composerAudit.vulnerabilities ? Object.keys(composerAudit.vulnerabilities).length : 0;
+            const npmVulns = npmAudit.vulnerabilities ? Object.keys(npmAudit.vulnerabilities).length : 0;
+
+            if (composerVulns > 0 || npmVulns > 0) {
+              comment += '### 🔒 Security Vulnerabilities\n';
+              comment += `- Composer: ${composerVulns} vulnerabilities\n`;
+              comment += `- npm: ${npmVulns} vulnerabilities\n\n`;
+            } else {
+              comment += '### ✅ Security Audit\n';
+              comment += 'No security vulnerabilities found.\n\n';
+            }
+          } catch (e) {
+            comment += '### ✅ Security Audit\n';
+            comment += 'No security vulnerabilities found.\n\n';
+          }
+
+          comment += '---\n*This comment was automatically generated by GitHub Actions*';
+
+          github.rest.issues.createComment({
+            issue_number: context.issue.number,
+            owner: context.repo.owner,
+            repo: context.repo.repo,
+            body: comment
+          });

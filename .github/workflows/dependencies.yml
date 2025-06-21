@@ -1,0 +1,111 @@
+name: Update Dependencies
+
+on:
+  schedule:
+    # Run every Monday at 9 AM UTC
+    - cron: '0 9 * * 1'
+  workflow_dispatch:
+
+jobs:
+  update-dependencies:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+      with:
+        token: ${{ secrets.GITHUB_TOKEN }}
+
+    - name: Setup PHP
+      uses: shivammathur/setup-php@v2
+      with:
+        php-version: 8.3
+        extensions: mbstring, xml, ctype, iconv, intl, pdo_mysql, dom, filter, gd, iconv, json, mbstring, pdo, pdo_sqlite, phar, tokenizer, xml, xmlreader, xmlwriter, zip, curl, fileinfo, openssl, bcmath, soap, sockets, sodium, exif, pcntl, calendar, sysvmsg, sysvsem, sysvshm
+        tools: composer:v2
+
+    - name: Setup Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: '20'
+        cache: 'npm'
+
+    - name: Get composer cache directory
+      id: composer-cache
+      run: echo "dir=$(composer config cache-files-dir)" >> $GITHUB_OUTPUT
+
+    - name: Cache composer dependencies
+      uses: actions/cache@v4
+      with:
+        path: ${{ steps.composer-cache.outputs.dir }}
+        key: ${{ runner.os }}-php-8.3-composer-${{ hashFiles('**/composer.lock') }}
+        restore-keys: ${{ runner.os }}-php-8.3-composer-
+
+    - name: Cache npm dependencies
+      uses: actions/cache@v4
+      with:
+        path: ~/.npm
+        key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
+        restore-keys: |
+          ${{ runner.os }}-node-
+
+    - name: Install PHP dependencies
+      run: composer install --prefer-dist --no-progress --no-interaction
+
+    - name: Install Node.js dependencies
+      run: npm ci
+
+    - name: Check for outdated Composer packages
+      id: composer-outdated
+      run: |
+        composer outdated --format=json > composer-outdated.json
+        if [ -s composer-outdated.json ]; then
+          echo "has_updates=true" >> $GITHUB_OUTPUT
+        else
+          echo "has_updates=false" >> $GITHUB_OUTPUT
+        fi
+
+    - name: Check for outdated npm packages
+      id: npm-outdated
+      run: |
+        npm outdated --json > npm-outdated.json 2>/dev/null || echo "{}" > npm-outdated.json
+        if [ -s npm-outdated.json ] && [ "$(cat npm-outdated.json)" != "{}" ]; then
+          echo "has_updates=true" >> $GITHUB_OUTPUT
+        else
+          echo "has_updates=false" >> $GITHUB_OUTPUT
+        fi
+
+    - name: Update Composer dependencies
+      if: steps.composer-outdated.outputs.has_updates == 'true'
+      run: |
+        composer update --prefer-dist --no-progress --no-interaction
+        composer dump-autoload
+
+    - name: Update npm dependencies
+      if: steps.npm-outdated.outputs.has_updates == 'true'
+      run: npm update
+
+    - name: Create Pull Request
+      if: steps.composer-outdated.outputs.has_updates == 'true' || steps.npm-outdated.outputs.has_updates == 'true'
+      uses: peter-evans/create-pull-request@v5
+      with:
+        token: ${{ secrets.GITHUB_TOKEN }}
+        commit-message: 'chore: update dependencies'
+        title: 'chore: update dependencies'
+        body: |
+          ## Dependency Updates
+
+          This PR updates outdated dependencies to their latest compatible versions.
+
+          ### Composer Updates
+          $(if [ -s composer-outdated.json ]; then cat composer-outdated.json | jq -r 'to_entries[] | "**\(.key):** \(.value.installed) → \(.value.latest)"' 2>/dev/null || echo "No Composer updates found"; fi)
+
+          ### npm Updates
+          $(if [ -s npm-outdated.json ] && [ "$(cat npm-outdated.json)" != "{}" ]; then cat npm-outdated.json | jq -r 'to_entries[] | "**\(.key):** \(.value.current) → \(.value.latest)"' 2>/dev/null || echo "No npm updates found"; fi)
+
+          ---
+          *This PR was automatically created by GitHub Actions*
+        branch: chore/update-dependencies
+        delete-branch: true
+        labels: |
+          dependencies
+          automated
