@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Http\Controllers;
 
 use App\Http\Requests\ListCategoryProductsRequest;
@@ -7,7 +9,6 @@ use App\Http\Resources\ProductResource;
 use App\Models\Category;
 use App\Services\CategoryService;
 use App\ValueObjects\CategoryFilters;
-use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 
 /**
@@ -136,13 +137,13 @@ use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
  *     )
  * )
  */
-class ListCategoryProductsController extends Controller
+final class ListCategoryProductsController extends Controller
 {
     public function __construct(
         private readonly CategoryService $categoryService
     ) {}
 
-    public function __invoke(ListCategoryProductsRequest $request, Category $category): AnonymousResourceCollection|JsonResponse
+    public function __invoke(ListCategoryProductsRequest $request, Category $category): AnonymousResourceCollection
     {
         $filters = CategoryFilters::withPagination([
             'sortBy' => $request->sortBy(),

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 use App\Http\Controllers\ListCategoriesController;
 use App\Http\Controllers\ListCategoryProductsController;
 use Illuminate\Support\Facades\Route;

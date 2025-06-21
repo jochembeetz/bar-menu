@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\GraphQL\Resolvers;
 
 use App\GraphQL\Resources\PaginatedResponse;
@@ -7,7 +9,7 @@ use App\Models\Category;
 use App\Services\CategoryService;
 use App\ValueObjects\CategoryFilters;
 
-class CategoryResolver extends BaseResolver
+final class CategoryResolver extends BaseResolver
 {
     public function __construct(
         private readonly CategoryService $categoryService

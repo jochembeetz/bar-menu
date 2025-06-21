@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Tests\Feature\Consistency;
 
 use App\Models\Category;
@@ -8,7 +10,7 @@ use Nuwave\Lighthouse\Testing\MakesGraphQLRequests;
 use Nuwave\Lighthouse\Testing\RefreshesSchemaCache;
 use Tests\TestCase;
 
-class ListCategoriesPaginationTest extends TestCase
+final class ListCategoriesPaginationTest extends TestCase
 {
     use MakesGraphQLRequests;
     use RefreshDatabase;

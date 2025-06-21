@@ -1,12 +1,14 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Tests\Unit\ValueObjects;
 
 use App\ValueObjects\SortingOptions;
 use InvalidArgumentException;
 use Tests\TestCase;
 
-class SortingOptionsTest extends TestCase
+final class SortingOptionsTest extends TestCase
 {
     public function test_creates_with_valid_parameters()
     {

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Http\Controllers;
 
 use App\Http\Requests\ListCategoriesRequest;
@@ -105,7 +107,7 @@ use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
  *     )
  * )
  */
-class ListCategoriesController extends Controller
+final class ListCategoriesController extends Controller
 {
     public function __construct(
         private readonly CategoryService $categoryService

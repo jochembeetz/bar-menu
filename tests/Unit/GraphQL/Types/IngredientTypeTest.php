@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Tests\Unit\GraphQL\Types;
 
 use App\GraphQL\Types\IngredientType;
@@ -8,7 +10,7 @@ use App\Models\Product;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
-class IngredientTypeTest extends TestCase
+final class IngredientTypeTest extends TestCase
 {
     use RefreshDatabase;
 

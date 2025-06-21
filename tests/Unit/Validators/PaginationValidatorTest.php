@@ -1,11 +1,13 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Tests\Unit\Validators;
 
 use App\Validators\PaginationValidator;
 use Tests\TestCase;
 
-class PaginationValidatorTest extends TestCase
+final class PaginationValidatorTest extends TestCase
 {
     public function test_from_graphql_args_extracts_pagination_correctly(): void
     {

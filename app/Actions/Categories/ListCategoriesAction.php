@@ -1,12 +1,14 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Actions\Categories;
 
 use App\Models\Category;
 use App\ValueObjects\CategoryFilters;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 
-class ListCategoriesAction
+final class ListCategoriesAction
 {
     /**
      * Execute the action to list categories with pagination and sorting.

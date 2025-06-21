@@ -1,8 +1,10 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Validators;
 
-class SortingValidator
+final class SortingValidator
 {
     /**
      * Get validation rules for sorting.

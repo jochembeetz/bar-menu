@@ -1,8 +1,10 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\ValueObjects;
 
-class PaginationOptions
+final class PaginationOptions
 {
     public function __construct(
         public readonly int $limit,
@@ -17,8 +19,8 @@ class PaginationOptions
     public static function fromArray(array $filters): self
     {
         return new self(
-            limit: $filters['limit'] ?? 10,
-            page: $filters['page'] ?? 1
+            limit: (int) ($filters['limit'] ?? 10),
+            page: (int) ($filters['page'] ?? 1)
         );
     }
 
@@ -28,8 +30,8 @@ class PaginationOptions
     public static function fromGraphQLArgs(array $args): self
     {
         return new self(
-            limit: $args['first'] ?? 10,
-            page: $args['page'] ?? 1
+            limit: (int) ($args['first'] ?? 10),
+            page: (int) ($args['page'] ?? 1)
         );
     }
 

@@ -1,12 +1,14 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Tests\Feature\Api;
 
 use App\Models\Category;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
-class ListCategoriesControllerTest extends TestCase
+final class ListCategoriesControllerTest extends TestCase
 {
     use RefreshDatabase;
 

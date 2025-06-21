@@ -1,11 +1,13 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Tests\Unit\Validators;
 
 use App\Validators\SortingValidator;
 use Tests\TestCase;
 
-class SortingValidatorTest extends TestCase
+final class SortingValidatorTest extends TestCase
 {
     public function test_from_graphql_args_extracts_sorting_correctly(): void
     {

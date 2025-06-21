@@ -1,12 +1,14 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Tests\Unit\ValueObjects;
 
 use App\ValueObjects\PaginationOptions;
 use InvalidArgumentException;
 use Tests\TestCase;
 
-class PaginationOptionsTest extends TestCase
+final class PaginationOptionsTest extends TestCase
 {
     public function test_creates_with_valid_parameters()
     {

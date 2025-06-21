@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -9,9 +11,10 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 
 /**
  * @model
+ *
  * @property \App\Models\CategoryProduct|\App\Models\IngredientProduct|null $pivot
  */
-class Product extends Model
+final class Product extends Model
 {
     /** @use HasFactory<\Database\Factories\ProductFactory> */
     use HasFactory, SoftDeletes;

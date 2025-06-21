@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Database\Seeders;
 
 use App\Models\Category;
@@ -8,7 +10,7 @@ use App\Models\Product;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
-class ProductSeeder extends Seeder
+final class ProductSeeder extends Seeder
 {
     use WithoutModelEvents;
 

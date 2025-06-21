@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Tests\Unit\ValueObjects;
 
 use App\ValueObjects\CategoryFilters;
@@ -8,7 +10,7 @@ use App\ValueObjects\SortingOptions;
 use InvalidArgumentException;
 use Tests\TestCase;
 
-class CategoryFiltersTest extends TestCase
+final class CategoryFiltersTest extends TestCase
 {
     public function test_creates_with_pagination()
     {

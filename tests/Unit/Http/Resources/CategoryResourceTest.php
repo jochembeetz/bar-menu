@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Tests\Unit\Http\Resources;
 
 use App\Http\Resources\CategoryResource;
@@ -8,7 +10,7 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Http\Request;
 use Tests\TestCase;
 
-class CategoryResourceTest extends TestCase
+final class CategoryResourceTest extends TestCase
 {
     use RefreshDatabase;
 

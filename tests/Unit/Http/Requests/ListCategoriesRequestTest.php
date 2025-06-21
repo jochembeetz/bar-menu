@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Tests\Unit\Http\Requests;
 
 use App\Http\Requests\ListCategoriesRequest;
@@ -7,7 +9,7 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Validator;
 use Tests\TestCase;
 
-class ListCategoriesRequestTest extends TestCase
+final class ListCategoriesRequestTest extends TestCase
 {
     use RefreshDatabase;
 

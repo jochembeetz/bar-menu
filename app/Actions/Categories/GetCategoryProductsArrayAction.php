@@ -1,11 +1,13 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Actions\Categories;
 
 use App\Models\Category;
 use App\ValueObjects\CategoryFilters;
 
-class GetCategoryProductsArrayAction
+final class GetCategoryProductsArrayAction
 {
     /**
      * Execute the action to get products for a category as a simple array.

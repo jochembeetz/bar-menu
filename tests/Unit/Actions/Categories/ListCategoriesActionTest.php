@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Tests\Unit\Actions\Categories;
 
 use App\Actions\Categories\ListCategoriesAction;
@@ -8,7 +10,7 @@ use App\ValueObjects\CategoryFilters;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
-class ListCategoriesActionTest extends TestCase
+final class ListCategoriesActionTest extends TestCase
 {
     use RefreshDatabase;
 

@@ -15,7 +15,7 @@ namespace Illuminate\Testing {
     use Nuwave\Lighthouse\Subscriptions\Contracts\Broadcaster;
     use PHPUnit\Framework\TestCase;
 
-    class TestResponse
+    final class TestResponse
     {
         /**
          * Assert the response contains an error with a matching message.

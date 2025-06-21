@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Tests\Unit\GraphQL\Resolvers;
 
 use App\GraphQL\Resolvers\CategoryResolver;
@@ -11,7 +13,7 @@ use GraphQL\Error\Error;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
-class CategoryResolverTest extends TestCase
+final class CategoryResolverTest extends TestCase
 {
     use RefreshDatabase;
 

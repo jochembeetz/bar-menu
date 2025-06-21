@@ -1,10 +1,12 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\GraphQL\Resources;
 
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 
-class PaginatedResponse
+final class PaginatedResponse
 {
     /**
      * Format a LengthAwarePaginator into the standard GraphQL response structure.

@@ -1,10 +1,12 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\ValueObjects;
 
 use Illuminate\Support\Str;
 
-class SortingOptions
+final class SortingOptions
 {
     public function __construct(
         public readonly string $sortBy,

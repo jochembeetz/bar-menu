@@ -1,8 +1,10 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\ValueObjects;
 
-class CategoryFilters
+final class CategoryFilters
 {
     public function __construct(
         public readonly SortingOptions $sorting,

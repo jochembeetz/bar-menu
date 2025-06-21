@@ -1,10 +1,12 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\GraphQL\Resolvers;
 
 use App\Models\Product;
 
-class ProductResolver extends BaseResolver
+final class ProductResolver extends BaseResolver
 {
     /**
      * Resolve products query for GraphQL.

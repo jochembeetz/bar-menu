@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Tests\Feature\Api;
 
 use App\Models\Category;
@@ -7,7 +9,7 @@ use App\Models\Ingredient;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
-class ListCategoryProductsControllerTest extends TestCase
+final class ListCategoryProductsControllerTest extends TestCase
 {
     use RefreshDatabase;
 

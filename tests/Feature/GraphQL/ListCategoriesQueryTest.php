@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Tests\Feature\GraphQL;
 
 use App\Models\Category;
@@ -8,7 +10,7 @@ use Nuwave\Lighthouse\Testing\MakesGraphQLRequests;
 use Nuwave\Lighthouse\Testing\RefreshesSchemaCache;
 use Tests\TestCase;
 
-class ListCategoriesQueryTest extends TestCase
+final class ListCategoriesQueryTest extends TestCase
 {
     use MakesGraphQLRequests;
     use RefreshDatabase;

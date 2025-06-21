@@ -1,12 +1,14 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Http\Requests;
 
 use App\Validators\PaginationValidator;
 use App\Validators\SortingValidator;
 use Illuminate\Foundation\Http\FormRequest;
 
-class ListCategoryProductsRequest extends FormRequest
+final class ListCategoryProductsRequest extends FormRequest
 {
     public function rules(): array
     {
@@ -36,12 +38,12 @@ class ListCategoryProductsRequest extends FormRequest
 
     public function limit(): int
     {
-        return $this->validated('limit', 10);
+        return (int) $this->validated('limit', 10);
     }
 
     public function page(): int
     {
-        return $this->validated('page', 1);
+        return (int) $this->validated('page', 1);
     }
 
     /**

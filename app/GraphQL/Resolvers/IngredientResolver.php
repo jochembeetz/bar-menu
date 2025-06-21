@@ -1,10 +1,12 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\GraphQL\Resolvers;
 
 use App\Models\Ingredient;
 
-class IngredientResolver extends BaseResolver
+final class IngredientResolver extends BaseResolver
 {
     /**
      * Resolve ingredients query for GraphQL.

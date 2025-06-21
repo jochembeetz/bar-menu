@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Services;
 
 use App\Actions\Categories\GetCategoryProductsArrayAction;
@@ -9,7 +11,7 @@ use App\Models\Category;
 use App\ValueObjects\CategoryFilters;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 
-class CategoryService
+final class CategoryService
 {
     public function __construct(
         private readonly ListCategoriesAction $listCategoriesAction,

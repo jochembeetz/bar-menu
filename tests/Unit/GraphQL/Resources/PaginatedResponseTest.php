@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Tests\Unit\GraphQL\Resources;
 
 use App\GraphQL\Resources\PaginatedResponse;
@@ -7,7 +9,7 @@ use App\Models\Category;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
-class PaginatedResponseTest extends TestCase
+final class PaginatedResponseTest extends TestCase
 {
     use RefreshDatabase;
 
