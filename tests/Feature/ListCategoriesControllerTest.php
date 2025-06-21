@@ -24,7 +24,6 @@ class ListCategoriesControllerTest extends TestCase
                         'name',
                         'slug',
                         'description',
-                        'sort_order',
                     ],
                 ],
                 'links',

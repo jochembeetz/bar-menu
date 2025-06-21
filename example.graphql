@@ -1,0 +1,27 @@
+# Get all categories
+query GetCategories {
+  categories {
+    data {
+      id
+      name
+      slug
+      description
+      sort_order
+      created_at
+    }
+  }
+}
+
+# Get all categories
+query GetCategoriesOrdered {
+  categories(orderBy: [{ column: SORT_ORDER, order: DESC }]) {
+    data {
+      id
+      name
+      slug
+      description
+      sort_order
+      created_at
+    }
+  }
+}

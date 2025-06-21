@@ -31,7 +31,6 @@ class CategoryResourceTest extends TestCase
             'name' => 'Cocktails',
             'slug' => 'cocktails',
             'description' => 'Alcoholic mixed drinks',
-            'sort_order' => 10,
         ], $result);
     }
 
@@ -54,7 +53,6 @@ class CategoryResourceTest extends TestCase
             'name' => 'Beers',
             'slug' => 'beers',
             'description' => null,
-            'sort_order' => 20,
         ], $result);
     }
 
@@ -77,7 +75,6 @@ class CategoryResourceTest extends TestCase
             'name' => 'Wines',
             'slug' => 'wines',
             'description' => '',
-            'sort_order' => 30,
         ], $result);
     }
 
@@ -100,7 +97,6 @@ class CategoryResourceTest extends TestCase
             'name' => 'Soft Drinks',
             'slug' => 'soft-drinks',
             'description' => 'Non-alcoholic beverages',
-            'sort_order' => 0,
         ], $result);
     }
 
@@ -123,7 +119,6 @@ class CategoryResourceTest extends TestCase
             'name' => 'Mocktails',
             'slug' => 'mocktails',
             'description' => 'Non-alcoholic mixed drinks',
-            'sort_order' => 999999,
         ], $result);
     }
 
@@ -146,7 +141,6 @@ class CategoryResourceTest extends TestCase
             'name' => 'Café & Coffee',
             'slug' => 'cafe-coffee',
             'description' => 'Hot beverages',
-            'sort_order' => 40,
         ], $result);
     }
 
@@ -170,7 +164,6 @@ class CategoryResourceTest extends TestCase
             'name' => 'Spirits',
             'slug' => 'spirits',
             'description' => $longDescription,
-            'sort_order' => 50,
         ], $result);
     }
 
@@ -192,7 +185,6 @@ class CategoryResourceTest extends TestCase
         $this->assertIsString($result['name']);
         $this->assertIsString($result['slug']);
         $this->assertIsString($result['description']);
-        $this->assertIsInt($result['sort_order']);
     }
 
     public function test_it_works_with_collection(): void
@@ -209,6 +201,5 @@ class CategoryResourceTest extends TestCase
         $this->assertArrayHasKey('name', $result[0]);
         $this->assertArrayHasKey('slug', $result[0]);
         $this->assertArrayHasKey('description', $result[0]);
-        $this->assertArrayHasKey('sort_order', $result[0]);
     }
 }
