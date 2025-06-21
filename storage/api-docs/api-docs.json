@@ -256,7 +256,7 @@
                                                         "type": "string",
                                                         "nullable": true
                                                     },
-                                                    "priceInCents": {
+                                                    "price_in_cents": {
                                                         "type": "integer"
                                                     },
                                                     "ingredients": {

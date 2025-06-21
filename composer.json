@@ -62,6 +62,12 @@
             "Composer\\Config::disableProcessTimeout",
             "npx concurrently -c \"#93c5fd,#c4b5fd\" \"php artisan serve\" \"php artisan pail --timeout=0\" --names=server,logs"
         ],
+        "dev:docker": [
+            "./vendor/bin/sail up -d"
+        ],
+        "lint": [
+            "./vendor/bin/pint --test && ./vendor/bin/phpstan analyse --memory-limit=2G "
+        ],
         "test": [
             "@php artisan config:clear --ansi",
             "@php artisan test"
