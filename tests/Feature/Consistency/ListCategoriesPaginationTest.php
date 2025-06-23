@@ -96,7 +96,6 @@ final class ListCategoriesPaginationTest extends TestCase
         ');
 
         $apiResponse = $this->getJson('api/v1/categories?limit=101');
-        // dd($graphqlResponse->json());
         $this->assertEquals($apiResponse->assertStatus(422)->json('errors.limit.0'), 'The limit field must be less than 100.');
         $this->assertEquals($graphqlResponse->json('errors.0.message'), 'The first field must be less than 100.');
     }
