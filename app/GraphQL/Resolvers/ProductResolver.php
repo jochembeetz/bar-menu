@@ -16,7 +16,7 @@ final class ProductResolver extends BaseResolver
         $query = Product::query()->with(['categories', 'ingredients']);
 
         return $this->applyPaginationAndSorting($query, $args, [
-            'price_in_cents'
+            'price_in_cents',
         ]);
     }
 }

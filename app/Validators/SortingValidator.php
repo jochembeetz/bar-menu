@@ -57,14 +57,14 @@ final class SortingValidator
         $order = $args['orderBy']['order'] ?? 'asc';
 
         // Validate column name to prevent SQL injection
-        if (!in_array($column, $sortFields)) {
+        if (! in_array($column, $sortFields)) {
             throw new \InvalidArgumentException(
-                'Invalid sort column. Allowed columns: ' . implode(', ', $sortFields)
+                'Invalid sort column. Allowed columns: '.implode(', ', $sortFields)
             );
         }
 
         // Validate order direction
-        if (!in_array(strtolower($order), ['asc', 'desc'])) {
+        if (! in_array(strtolower($order), ['asc', 'desc'])) {
             throw new \InvalidArgumentException('Sort order must be "asc" or "desc"');
         }
 
