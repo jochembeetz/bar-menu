@@ -9,6 +9,7 @@ A modern bar menu management system built with Laravel and GraphQL, featuring a 
 - I choose a combination of Services and Actions. While actions perform single operations as a unit, services can orchestrate between these operations and allow for a (to me) pleasant layer of abstraction. In this repository 1 service method calls 1 action class, but in real life it may call 2 actions classes and/or perform other actions such as logging etc.
 - I choose to not go for Repository classes. The assignment said something about it but in modern Laravel, this is not considered a best practice anymore: https://medium.com/@rluders/your-laravel-application-with-repository-doesnt-make-any-sense-ab2ae1bf044b
 - I did not have time to create a frontend application too. I would like to do it, but I would need some more time.
+- I did not have time to go over all queries executed, and review them for inefficiency.
 - There's probably a lot of choices I was not able to cover in these comments and may leave you with questions while reviewing. I'm happy to answer and/or discuss any questions/remarks you have. IRL there would be reviews too, and iterations across multiple days to improve. I'm aware that in this situation I did not have the chance to iterate on anything but would love to hear any points to improve.
 - Commit list if you want to see how I worked: https://github.com/jochembeetz/bar-menu/commits/main/
 
